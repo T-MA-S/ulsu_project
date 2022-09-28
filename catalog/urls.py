@@ -3,5 +3,6 @@ from .views import *
 from django.contrib import admin
 
 urlpatterns = [
+    path('api/users/', UserModelListCreate.as_view()),
 
 ]
