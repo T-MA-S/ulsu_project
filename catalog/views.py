@@ -11,3 +11,6 @@ def test_email(request):
     fail_silently=False,)
     return HttpResponse("email was sent")
 
+def sign(request):
+    return render(request, "catalog/sign_in.html")
+
