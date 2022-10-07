@@ -38,6 +38,8 @@ def signup(request):
 
             print(email, username, pass1, pass2)
 
+            # здесь должен быть функционал добавления user'a
+
             return redirect('login')
     else:
         form = UserRegisterForm()
