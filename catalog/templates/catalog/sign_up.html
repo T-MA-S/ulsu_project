@@ -30,9 +30,23 @@
             </p>
           </div>
 
+
+
           <div class="col-lg-6 mb-5 mb-lg-0">
             <div class="card">
               <div class="card-body py-5 px-md-5">
+                 {% if form.errors %}
+                 {% for field in form %}
+
+                 {% for error in field.errors %}
+                <div class="alert alert-danger" role="alert">
+                  <span>{{ error|escape }}</span>
+                </div>
+
+                {% endfor %}
+
+                {% endfor %}
+                {% endif %}
                 <form  method="post">
                 {% csrf_token %}
 
@@ -70,8 +84,15 @@
 
                   <!-- Submit button -->
                   <button type="submit" class="btn btn-primary btn-block mb-4">
-                    Sign up
+                    Зарегистрироваться
                   </button>
+
+
+                    <br>
+                    <a href="{% url 'login' %}">Войти</a>
+                    <br>
+                    <a href="#">Забыли пароль?</a>
+
 
                 </form>
                 {% endblock %}

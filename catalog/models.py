@@ -10,9 +10,9 @@ class UserModel(AbstractUser):
 
     email = models.EmailField('Email', unique=True)
 
-    name = models.TextField("username")
+    username = models.TextField("username")
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 
     def __str__(self):

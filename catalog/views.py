@@ -9,16 +9,23 @@ from .models import *
 
 def test_email(request):
     send_mail('Subject here',
-    'Here is the message.',
-    'ulsuproject@outlook.com',
-    ['to@example.com'],
-    fail_silently=False,)
+              'Here is the message.',
+              'ulsuproject@outlook.com',
+              ['to@example.com'],
+              fail_silently=False, )
     return HttpResponse("email was sent")
 
+
+def home(request):
+    if request.user.is_authenticated:
+        return render(request, "catalog/test.html")
+    else:
+        return redirect('login')
 
 
 def login(request):
     return render(request, "catalog/sign_in.html")
+
 
 def signup(request):
     if request.method == "POST":
@@ -29,22 +36,13 @@ def signup(request):
             pass1 = form.cleaned_data['password1']
             pass2 = form.cleaned_data['password2']
 
-            user = UserModel.objects.filter(email=email)
-            print(user)
-
-
             print(email, username, pass1, pass2)
-            # при успешной регистрации
-            return redirect('login')
 
+            return redirect('login')
     else:
         form = UserRegisterForm()
-        context = {
-            "form": form,
-        }
-        return render(request, "catalog/sign_up.html", context=context)
 
-
-
-
-
+    context = {
+        "form": form,
+    }
+    return render(request, "catalog/sign_up.html", context=context)
