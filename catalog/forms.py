@@ -25,4 +25,13 @@ class UserRegisterForm(forms.Form):
         return email
 
 
+class GetEmailForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type':'email', 'id': 'email'}))
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if not UserModel.objects.filter(email=email).exists():
+            raise forms.ValidationError("Пользователь с таким email еще не зарегистрирован")
+        return email
+
 
