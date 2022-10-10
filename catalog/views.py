@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.contrib import messages
 from django.views.generic import TemplateView
 from django.views.generic import FormView
 from .forms import *
@@ -63,13 +64,18 @@ def login(request, exception = None):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
+            return redirect('home')
             if user is not None:
                 form = login(request, user)
-        return redirect('home')
+        else:
+            messages.error(request, 'Введённые данные некорректны')
+
     else:
+
         form = UserLoginForm()
     context = {
         "forms": form,
+
     }
     return render(request, "catalog/sign_in.html", context=context)
 
@@ -112,3 +118,5 @@ def forgotpassword(request):
 
         form = GetEmailForm()
     return render(request, 'catalog/forgot_password.html', {'form': form})
+
+
