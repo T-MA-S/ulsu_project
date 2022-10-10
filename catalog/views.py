@@ -66,12 +66,19 @@ def user_login(request):
                 return redirect('home')
 
             else:
-                messages.error(request, 'Введённые данные некорректны')
+                error = "Неверный логин или пароль"
+                context = {
+                    "form": form,
+                    "error": error
+                }
+                return render(request, "catalog/sign_in.html", context=context)
+
 
     else:
         form = UserLoginForm()
     context = {
         "form": form,
+        "error":"",
     }
     return render(request, "catalog/sign_in.html", context=context)
 
@@ -95,7 +102,6 @@ def generate_restore_link(request, email):
 def forgotpassword(request):
     if request.method == 'POST':
         form = GetEmailForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             email = form.cleaned_data['email']
             link = generate_restore_link(request, email)
