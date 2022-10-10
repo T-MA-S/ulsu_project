@@ -1,7 +1,9 @@
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from django.views.generic import FormView
 from .forms import *
 from .models import *
@@ -39,7 +41,8 @@ def signup(request):
             print(email, username, pass1, pass2)
 
             # здесь должен быть функционал добавления user'a
-
+            user = UserModel(email=email, username = username, password = pass1)
+            user.save()
             return redirect('login')
     else:
         form = UserRegisterForm()
@@ -48,3 +51,28 @@ def signup(request):
         "form": form,
     }
     return render(request, "catalog/sign_up.html", context=context)
+
+def user_login(request, exception = None):
+    if request.method == "POST":
+        form = AuthenticationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                form = login(request, user)
+        return redirect('home')
+    else:
+        form = AuthenticationForm()
+    context = {
+        "forms": form,
+    }
+    return render(request, "catalog/sign_in.html", context=context)
+
+
+
+
+
+
+
+

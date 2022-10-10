@@ -24,5 +24,10 @@ class UserRegisterForm(forms.Form):
             raise forms.ValidationError("Пользователь с таким email уже зарегистрирован")
         return email
 
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'email', 'id': 'email'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password', 'id': 'password1'}))
+
+
 
 
