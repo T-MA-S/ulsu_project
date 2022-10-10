@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth import login, logout
 from django.views.generic import TemplateView
 from django.views.generic import FormView
 from .forms import *
@@ -11,7 +12,6 @@ from .models import *
 import hashlib
 import random
 import string
-
 
 
 def test_email(request):
@@ -39,13 +39,9 @@ def signup(request):
             pass1 = form.cleaned_data['password1']
             pass2 = form.cleaned_data['password2']
 
-            print(email, username, pass1, pass2)
-
-            # здесь должен быть функционал добавления user'a
-
-            user = UserModel(email=email, username=username, password=pass1)
+            user = UserModel(email=email, username=username)
+            user.set_password(pass1)
             user.save()
-
 
             return redirect('login')
     else:
@@ -57,30 +53,27 @@ def signup(request):
     return render(request, "catalog/sign_up.html", context=context)
 
 
-def login(request, exception = None):
+def user_login(request):
     if request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            password = form.cleaned_data['password1']
             user = authenticate(request, email=email, password=password)
-            return redirect('home')
+
             if user is not None:
-                form = login(request, user)
-        else:
-            messages.error(request, 'Введённые данные некорректны')
+                login(request, user)
+                return redirect('home')
+
+            else:
+                messages.error(request, 'Введённые данные некорректны')
 
     else:
-
         form = UserLoginForm()
     context = {
-        "forms": form,
-
+        "form": form,
     }
     return render(request, "catalog/sign_in.html", context=context)
-
-
-
 
 
 def randomString(stringLength=10):
@@ -90,6 +83,7 @@ def randomString(stringLength=10):
     hex_dig = hash_object.hexdigest()
 
     return hex_dig
+
 
 def generate_restore_link(request, email):
     user = UserModel.objects.get(email=email)
@@ -120,7 +114,6 @@ def forgotpassword(request):
     return render(request, 'catalog/forgot_password.html', {'form': form})
 
 
-
 def restore_password(request, access_code):
     if RestorelinkModel.objects.filter(url=access_code).exists():
         if request.method == 'POST':
@@ -129,7 +122,7 @@ def restore_password(request, access_code):
                 password = form.cleaned_data['password1']
                 current_user = UserModel.objects.get(
                     id=RestorelinkModel.objects.get(url=access_code).user.id)
-                current_user.password = password
+                current_user.set_password(password)
                 current_user.save()
                 RestorelinkModel.objects.filter(url=access_code).delete()
                 return redirect('login')
@@ -143,3 +136,6 @@ def restore_password(request, access_code):
         return HttpResponse("Bad or Expired link")
 
 
+def user_logout(request):
+    logout(request)
+    return redirect('home')
