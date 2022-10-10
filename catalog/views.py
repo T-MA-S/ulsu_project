@@ -89,7 +89,7 @@ def generate_restore_link(request, email):
     user = UserModel.objects.get(email=email)
     the_string = randomString()
     RestorelinkModel.objects.create(url=the_string, user=user)
-    return ('{}/restore_password/{}'.format(request.build_absolute_uri('/'), the_string))
+    return ('{}restore_password/{}'.format(request.build_absolute_uri('/'), the_string))
 
 
 def forgotpassword(request):
@@ -106,9 +106,32 @@ def forgotpassword(request):
                 'ulsuproject@outlook.com',
                 [email],
             )
-            print(email)
+
             return HttpResponse("Проверьте почту, мы отправили вам ссылку для восстановления")
     else:
 
         form = GetEmailForm()
     return render(request, 'catalog/forgot_password.html', {'form': form})
+
+
+
+def restore_password(request, access_code):
+    if RestorelinkModel.objects.filter(url=access_code).exists():
+        if request.method == 'POST':
+            form = RestorePasswordForm(request.POST)
+            if form.is_valid():
+                password = form.cleaned_data['password1']
+                current_user = UserModel.objects.get(
+                    id=RestorelinkModel.objects.get(url=access_code).user.id)
+                current_user.password = password
+                current_user.save()
+                RestorelinkModel.objects.filter(url=access_code).delete()
+                return redirect('login')
+        else:
+
+            form = RestorePasswordForm()
+
+        return render(request, 'catalog/restore_password.html', {'form': form})
+
+    else:
+        return HttpResponse("Bad or Expired link")
