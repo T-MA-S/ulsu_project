@@ -40,6 +40,10 @@ def signup(request):
 
             # здесь должен быть функционал добавления user'a
 
+            user = UserModel(email=email, username=username, password=pass1)
+            user.save()
+
+
             return redirect('login')
     else:
         form = UserRegisterForm()
