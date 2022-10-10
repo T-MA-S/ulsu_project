@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -28,10 +29,6 @@ def home(request):
         return redirect('login')
 
 
-def login(request):
-    return render(request, "catalog/sign_in.html")
-
-
 def signup(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
@@ -57,6 +54,25 @@ def signup(request):
         "form": form,
     }
     return render(request, "catalog/sign_up.html", context=context)
+
+
+def login(request, exception = None):
+    if request.method == "POST":
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                form = login(request, user)
+        return redirect('home')
+    else:
+        form = UserLoginForm()
+    context = {
+        "forms": form,
+    }
+    return render(request, "catalog/sign_in.html", context=context)
+
 
 
 
