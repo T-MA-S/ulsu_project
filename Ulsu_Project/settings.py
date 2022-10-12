@@ -31,6 +31,9 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'catalog.apps.CatalogConfig',
 
+    'rest_framework',
+
+
 ]
 
 MIDDLEWARE = [
@@ -110,15 +113,16 @@ USE_I18N = True
 USE_TZ = True
 
 
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
-ACCOUNT_USERNAME_MIN_LENGTH = 6
-
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'Ulsu_Project/static',
+]
+
+STATIC_ROOT = 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -132,5 +136,4 @@ EMAIL_HOST_USER = 'ulsuproject@outlook.com'
 EMAIL_HOST_PASSWORD = 'Ulsutest'
 EMAIL_PORT = 587
 
-LOGIN_REDIRECT_URL = '/profile'
-SITE_ID = 1
+

@@ -2,6 +2,9 @@ from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from .models import UserModel
+from .serializers import UserModelSerializer
+from rest_framework import generics
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.views.generic import TemplateView
@@ -23,9 +26,15 @@ def test_email(request):
     return HttpResponse("email was sent")
 
 
+
+class UserModelListCreate(generics.ListCreateAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserModelSerializer
+
+
 def home(request):
     if request.user.is_authenticated:
-        return render(request, "catalog/test.html")
+        return render(request, "catalog/index.html")
     else:
         return redirect('login')
 
