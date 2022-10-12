@@ -27,7 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'catalog.apps.CatalogConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -72,6 +75,8 @@ DATABASES = {
 }
 
 
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -92,6 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "catalog.UserModel"
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -102,6 +108,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_USERNAME_MIN_LENGTH = 6
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -120,3 +131,6 @@ EMAIL_HOST = 'smtp.office365.com'
 EMAIL_HOST_USER = 'ulsuproject@outlook.com'
 EMAIL_HOST_PASSWORD = 'Ulsutest'
 EMAIL_PORT = 587
+
+LOGIN_REDIRECT_URL = '/profile'
+SITE_ID = 1
