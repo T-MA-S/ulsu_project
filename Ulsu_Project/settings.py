@@ -27,10 +27,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'catalog.apps.CatalogConfig',
 
     'rest_framework',
     'frontend',
+
 
 ]
 
@@ -44,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Ulsu_Project.urls'
+ROOT_URLCONF = 'locallibrary.urls'
 
 TEMPLATES = [
     {
@@ -76,6 +79,8 @@ DATABASES = {
 }
 
 
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -95,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "catalog.UserModel"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
