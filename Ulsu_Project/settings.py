@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
 
     'rest_framework',
-    'frontend',
 
 
 ]
@@ -47,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'locallibrary.urls'
+ROOT_URLCONF = 'Ulsu_Project.urls'
 
 TEMPLATES = [
     {
@@ -119,6 +118,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'Ulsu_Project/static',
+]
+
+STATIC_ROOT = 'static'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -130,3 +135,5 @@ EMAIL_HOST = 'smtp.office365.com'
 EMAIL_HOST_USER = 'ulsuproject@outlook.com'
 EMAIL_HOST_PASSWORD = 'Ulsutest'
 EMAIL_PORT = 587
+
+

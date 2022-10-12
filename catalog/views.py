@@ -34,7 +34,7 @@ class UserModelListCreate(generics.ListCreateAPIView):
 
 def home(request):
     if request.user.is_authenticated:
-        return render(request, "catalog/test.html")
+        return render(request, "catalog/index.html")
     else:
         return redirect('login')
 

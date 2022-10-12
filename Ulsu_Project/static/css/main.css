@@ -30,7 +30,7 @@ html {
 }
 
 body {
-    background-image: url(/templates/frontend/icons/ulsu.png);
+    background-image: url('/static/icons/ulsu.png');
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
