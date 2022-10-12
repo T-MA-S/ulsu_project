@@ -1,0 +1,43 @@
+{% extends 'catalog/auth_base.html' %}
+
+{% block content %}
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+
+    <span>{{ error }}</span>
+
+</div>
+{% endif %}
+
+<form method="post">
+    {%csrf_token%}
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="email">Email address</label>
+        {{ form.email }}
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password1">Password again</label>
+        {{ form.password1 }}
+
+    </div>
+
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">
+        Войти
+    </button>
+
+
+    <br>
+    <a href="{% url 'sign_up' %}">Зарегистрироваться</a>
+    <br>
+    <a href="{% url 'forgot_password' %}">Забыли пароль?</a>
+
+
+</form>
+{%endblock%}

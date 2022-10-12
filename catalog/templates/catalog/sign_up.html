@@ -1,0 +1,65 @@
+{% extends 'catalog/auth_base.html' %}
+
+
+{% block content %}
+
+{% if form.errors %}
+{% for field in form %}
+
+{% for error in field.errors %}
+<div class="alert alert-danger" role="alert">
+    <span>{{ error|escape }}</span>
+</div>
+
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row">
+
+        <div class="form-outline mb-4">
+            <label class="form-label" for="username">Username</label>
+            {{ form.username }}
+        </div>
+
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="email">Email address</label>
+        {{ form.email }}
+
+
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password1">Password</label>
+        {{ form.password1 }}
+    </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label" for="password2">Password again</label>
+        {{ form.password2 }}
+
+    </div>
+
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">
+        Зарегистрироваться
+    </button>
+
+
+    <br>
+    <a href="{% url 'login' %}">Войти</a>
+    <br>
+    <a href="{% url 'forgot_password' %}">Забыли пароль?</a>
+
+
+</form>
+{% endblock %}
