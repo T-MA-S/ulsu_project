@@ -51,6 +51,15 @@ body {
     overflow-x: hidden;
     transition: 0.6s;
     padding-top: 4rem;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sidenav::-webkit-scrollbar{
+    width: 0;
+    height: 0;
 }
 
 .sidenav p.is-title {
@@ -155,6 +164,7 @@ body {
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
+    transition: 0.5s linear;
 }
 
 .parent-card > ul > li {
@@ -364,3 +374,9 @@ header {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(39,38,40,0.4);
 }   
+
+@media only screen and (max-device-width: 800px) {
+    .theme{
+        top: 90%;
+    }
+}

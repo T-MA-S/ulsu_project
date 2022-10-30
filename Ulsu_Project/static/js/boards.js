@@ -301,7 +301,7 @@ class Card {
 
             let _newItemContextButton = document.createElement('i');
             _newItemContextButton.ariaHidden = true;
-            _newItemContextButton.classList.add('fa', 'fa-bars', 'btn');
+            _newItemContextButton.classList.add('fa', 'fa-bars');
             
             _newItemContextButton.addEventListener('click', (event) => { 
                 
