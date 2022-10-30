@@ -1,0 +1,72 @@
+.theme {
+    background: #222222;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+.sidenav > ul > li {
+    display: flex;
+    font-size: 1rem;
+    color: #f4f4f4;
+    background-color: #373737;
+    padding: 0.5rem;
+    margin-right: 10px;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px var(--primary-color-light);
+    height: 75px;
+    width: 150px;
+}
+
+.flex-col {
+    background-color: #373737;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-left: 9%;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px var(--primary-color-light);
+    height: 150px;
+    width: 150px;
+}
+
+#add-board-text {
+    width: 150px;
+    height: 150px;
+    color: #f4f4f4;
+}
+
+.sidenav {
+    height: 200%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: -50px;
+    left: 0;
+    background-color: #111111;
+    overflow-x: hidden;
+    transition: 0.6s;
+    padding-top: 4rem;
+}
+
+.fs-4{
+    color: #f4f4f4;
+}
+
+.btn-close{
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+}
+
+.parent-card {
+    flex-shrink: 0;
+    padding: 1rem 0.5rem;
+    background-color: #373737;
+    border-radius: 0.3rem;
+    width: 18.5rem;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: #f4f4f4;
+}

@@ -28,6 +28,7 @@ const e_cardContextMenuDuplicate = document.getElementById('card-context-menu-du
 
 const e_title = document.getElementById('title');
 
+
 var appData = {
     'boards': [],
     'settings': {
@@ -110,6 +111,8 @@ function listBoards() {
         _boardTitle.id = _board.id;
         if (_board.id === currentBoard().id) _boardTitle.classList.add('is-active');
         _boardTitle.addEventListener('click', () => {
+            delete e_sidebar.dataset.toggled;
+            e_sidebar.style.width = "0";
             renderBoard(_board);
             listBoards();
         });
@@ -170,7 +173,7 @@ function addBoard() {
     /* Adds a new board based on the input in the sidebar. */
 
     let _boardTitle = e_addBoardText.value;
-    if (!_boardTitle) return alert("Type a name for the board!");  // We don't create a board if it has no name.
+    if (!_boardTitle) return 0;  // We don't create a board if it has no name.
     if (appData.boards.length >= 512) return alert("Max limit for boards reached.")  // or if there are already too many boards
     e_addBoardText.value = '';
 
@@ -296,10 +299,19 @@ class Card {
                 this.removeItem(_item);
             });
 
+            let _newItemContextButton = document.createElement('i');
+            _newItemContextButton.ariaHidden = true;
+            _newItemContextButton.classList.add('fa', 'fa-bars', 'btn');
+            
+            _newItemContextButton.addEventListener('click', (event) => { 
+                
+            });
+            
+
             // Add both the buttons to the span tag.
             _newItemButtons.appendChild(_newItemEditButton);
             _newItemButtons.appendChild(_newItemDeleteButton);
-
+            _newItemButtons.appendChild(_newItemContextButton);
             // Add the title, span tag to the item and the item itself to the list.
             _newItem.appendChild(_newItemTitle);
             _newItem.appendChild(_newItemButtons);
@@ -384,7 +396,7 @@ class Card {
         _newButton.innerText = '+';
         _newButton.addEventListener('click', () => {
             let _inputValue = _newInput.value;
-            if (!_inputValue) return alert("Type a name for the item!");
+            if (!_inputValue) return 0;
             let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id);
             this.addItem(_item);
             _newInput.value = '';
@@ -737,6 +749,9 @@ e_deleteButton.addEventListener('click', () => {
     alert(`Deleted board "${_boardName}"`)
 });
 
+        e_sidebar.dataset.toggled = '';
+    e_sidebar.style.width = "100%";
+
 /* <=================================== Sidebar ===================================> */
 function toggleSidebar() {
     if (('toggled' in e_sidebar.dataset)) {
@@ -744,9 +759,10 @@ function toggleSidebar() {
         e_sidebar.style.width = "0";
     } else {
         e_sidebar.dataset.toggled = '';
-        e_sidebar.style.width = "250px";
+        e_sidebar.style.width = "100%";
     }
 }
 
 e_sidebarButton.addEventListener('click', toggleSidebar);
 e_sidebarClose.addEventListener('click', toggleSidebar);
+ы

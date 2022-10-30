@@ -1,0 +1,51 @@
+.theme {
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(39,38,40,0.4);
+}
+
+.sidenav > ul > li {
+    display: flex;
+    font-size: 1rem;
+    color: black;
+    background-color: #f3f3f3;
+    padding: 0.5rem;
+    margin-right: 10px;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px var(--primary-color-light);
+    height: 75px;
+    width: 150px;
+}
+
+.flex-col {
+    background-color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-left: 9%;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px var(--primary-color-light);
+    height: 150px;
+    width: 150px;
+}
+
+#add-board-text {
+    width: 150px;
+    height: 150px;
+    color: black;
+}
+
+.sidenav {
+    height: 200%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: -50px;
+    left: 0;
+    background-color: aliceblue;
+    overflow-x: hidden;
+    transition: 0.6s;
+    padding-top: 4rem;
+}
