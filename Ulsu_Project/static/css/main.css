@@ -211,7 +211,9 @@ body {
     background-color: transparent;
     color: white;
     margin: 0;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+
 }
 
 input[type="text"] {
@@ -356,12 +358,7 @@ header {
     
 }
 
-@media only screen and (max-device-width: 1040px) {
-    body{
-        background-image: none;
-        background-color: #3B5CB4;
-    }
-}
+
 
 .theme {
     position:fixed;
@@ -376,6 +373,12 @@ header {
 }   
 
 @media only screen and (max-device-width: 800px) {
+    .theme{
+        top: 90%;
+    }
+}
+
+@media (max-device-width: 800px) {
     .theme{
         top: 90%;
     }
