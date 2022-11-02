@@ -799,8 +799,11 @@ function createAlert(text) {
 
     e_alerts.appendChild(_e);
     setTimeout(function(){
-        _e.parentNode.removeChild(_e);
+        _e.classList.add('animate-hidden');
     }, 3500);
+    setTimeout(function(){
+        _e.parentNode.removeChild(_e);
+    }, 4500);
 }
 
 

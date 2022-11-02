@@ -416,3 +416,9 @@ header {
     transition: linear 0.5s;
 }
 
+.animate-hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.35s, opacity 0.35s linear;
+}
+
