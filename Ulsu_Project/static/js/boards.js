@@ -494,6 +494,8 @@ const cardDrag_startDragging = (e) => {
     // Set the position of the item to absolute
     // This allows us to take the element out of the document flow and play with its coordinates.
     cardDrag_mouseDownOn.style.position = 'absolute';
+    cardDrag_mouseDownOn.style.transform = 'rotate(10deg)'
+    
 
     // Enable hover style css, which makes other cards and items darker when hovered over.
     toggleHoverStyle(true);
@@ -578,6 +580,7 @@ const cardDrag_stopDragging = (e) => {
     }
     cardDrag_mouseDown = false;
     cardDrag_mouseDownOn.style.position = 'static';
+    cardDrag_mouseDownOn.style.transform = 'rotate(0deg)'
     cardDrag_mouseDownOn = null;
 };
 
