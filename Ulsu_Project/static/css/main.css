@@ -413,4 +413,6 @@ header {
     border-left: 5px solid red;
     border-radius: 0.5rem;
     z-index: 9;
+    transition: linear 0.5s;
 }
+

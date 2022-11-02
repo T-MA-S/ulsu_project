@@ -98,3 +98,19 @@ body{
     background-color: #373737;
     color: #f4f4f4;
 }
+
+.pencilItem{
+    color: black;
+}
+
+.trashItem{
+    color: #111111;
+}
+
+.barsItem{
+    color: #111111;
+}
+
+.cardTitledark{
+    color: #111111;
+}

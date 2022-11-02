@@ -26,6 +26,9 @@ const e_cardContextMenuDelete = document.getElementById('card-context-menu-delet
 const e_cardContextMenuClear = document.getElementById('card-context-menu-clear');
 const e_cardContextMenuDuplicate = document.getElementById('card-context-menu-duplicate');
 
+const e_ItemCotextMenu = document.getElementById('Modal');
+const e_ItemContextMenuBtn = document.getElementById('show-modal');
+
 const e_alerts = document.getElementById('alerts');
 
 const e_title = document.getElementById('title');
@@ -49,6 +52,8 @@ function currentCards() {
 function currentBoard() {
     return appData.boards[appData.currentBoard];
 }
+
+
 
 /* <=================================== Extensions ===================================> */
 Array.prototype.move = function(from, to) {
@@ -202,6 +207,8 @@ class Item {
         return document.getElementById(this.parentCardId);
     }
 
+    
+
     check(chk=true) {
         this.isDone = chk;
         if (chk) {
@@ -279,7 +286,7 @@ class Card {
             // Edit button. Allows the user to rename the item.
             let _newItemEditButton = document.createElement('button');
             _newItemEditButton.ariaHidden = true;
-            _newItemEditButton.classList.add('fa', 'fa-pencil', 'btn');
+            _newItemEditButton.classList.add('fa', 'fa-pencil', 'btn', 'pencilItem');
             _newItemEditButton.addEventListener('click', () => {
                 
                 // Card item editing functionality.
@@ -303,16 +310,19 @@ class Card {
             // Delete button. ALlows the user to delete the item from the card.
             let _newItemDeleteButton = document.createElement('button');
             _newItemDeleteButton.ariaHidden = true;
-            _newItemDeleteButton.classList.add('fa', 'fa-trash', 'btn');
+            _newItemDeleteButton.classList.add('fa', 'fa-trash', 'btn', 'trashItem');
             _newItemDeleteButton.addEventListener('click', () => {
                 this.removeItem(_item);
             });
 
             let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
-            _newItemContextButton.classList.add('fa', 'fa-bars', 'btn');
+            _newItemContextButton.classList.add('fa', 'fa-bars', 'btn', 'barsItem');
             //_newItemContextButton.dataset.target = "#Modal";
             _newItemContextButton.setAttribute("id", "show-modal");
+            _newItemContextButton.addEventListener('click', () => {
+                e_ItemCotextMenu.classList.add('show');
+            });
 
             
             
@@ -363,7 +373,7 @@ class Card {
         _newCardHeaderTitle.addEventListener('click', (e) => {
             let _input = document.createElement('input');
             _input.value = _newCardHeaderTitle.textContent;
-            _input.classList.add('card-title');
+            _input.classList.add('card-title', 'cardTitledark');
             _input.maxLength = 128;
             _newCardHeaderTitle.replaceWith(_input);
 
@@ -793,4 +803,6 @@ function createAlert(text) {
     }, 3500);
 }
 
+
+/*----------Description-Modal-----------------------------------------------------------*/ 
 
