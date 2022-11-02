@@ -383,3 +383,34 @@ header {
         top: 90%;
     }
 }
+
+.fa-floppy-o{
+    display: none;
+}
+
+/*--------alerts-------------*/
+
+#alert-container {
+    position: relative;
+}
+
+#alerts {
+    position: absolute;
+    bottom: 20px;
+    right:40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.alert {
+    background-color: white;
+    color: black;
+    padding-block: 0.2rem;
+    padding-inline: 2rem;
+    border-left: 5px solid red;
+    border-radius: 0.5rem;
+    z-index: 9;
+}

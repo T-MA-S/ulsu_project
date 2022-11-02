@@ -93,3 +93,8 @@ body{
 #sidebar-button{
     color: white;
 }
+
+.alert{
+    background-color: #373737;
+    color: #f4f4f4;
+}

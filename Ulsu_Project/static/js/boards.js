@@ -26,6 +26,8 @@ const e_cardContextMenuDelete = document.getElementById('card-context-menu-delet
 const e_cardContextMenuClear = document.getElementById('card-context-menu-clear');
 const e_cardContextMenuDuplicate = document.getElementById('card-context-menu-duplicate');
 
+const e_alerts = document.getElementById('alerts');
+
 const e_title = document.getElementById('title');
 
 
@@ -127,6 +129,7 @@ function renderBoard(board) {
     //e_title.addEventListener('click'), allow editing board name
     // To-Do: set theme
     renderCards();
+    saveData();
 }
 
 function renderCards() {
@@ -144,6 +147,7 @@ function renderCards() {
         e_cardsContainer.insertBefore(_generated, e_cardsContainer.childNodes[e_cardsContainer.childNodes.length - 2]);
         // Update the card for event listeners and etc...
         _card.update();
+        saveData();
     }
 }
 
@@ -173,13 +177,14 @@ function addBoard() {
     /* Adds a new board based on the input in the sidebar. */
 
     let _boardTitle = e_addBoardText.value;
-    if (!_boardTitle) return 0;  // We don't create a board if it has no name.
-    if (appData.boards.length >= 512) return alert("Max limit for boards reached.")  // or if there are already too many boards
+    if (!_boardTitle) return createAlert("Type a name for the board!");;  // We don't create a board if it has no name.
+    if (appData.boards.length >= 512) return createAlert("Max limit for boards reached.")  // or if there are already too many boards
     e_addBoardText.value = '';
 
     let _newBoard = new Board(_boardTitle, uniqueID(), {'theme': null});
     appData.boards.push(_newBoard);
     listBoards();
+    saveData();
 }
 
 /* <=================================== Classes ===================================> */
@@ -246,6 +251,10 @@ class Card {
         renderCards();
     }
 
+   // openDescription(item){
+   //     item.description = 
+   // }
+
     update() {
         for (let _item of this.items) {
             _item.update();
@@ -268,9 +277,9 @@ class Card {
             let _newItemButtons = document.createElement('span');
 
             // Edit button. Allows the user to rename the item.
-            let _newItemEditButton = document.createElement('i');
+            let _newItemEditButton = document.createElement('button');
             _newItemEditButton.ariaHidden = true;
-            _newItemEditButton.classList.add('fa', 'fa-pencil');
+            _newItemEditButton.classList.add('fa', 'fa-pencil', 'btn');
             _newItemEditButton.addEventListener('click', () => {
                 
                 // Card item editing functionality.
@@ -292,20 +301,20 @@ class Card {
             });
 
             // Delete button. ALlows the user to delete the item from the card.
-            let _newItemDeleteButton = document.createElement('i');
+            let _newItemDeleteButton = document.createElement('button');
             _newItemDeleteButton.ariaHidden = true;
-            _newItemDeleteButton.classList.add('fa', 'fa-trash');
+            _newItemDeleteButton.classList.add('fa', 'fa-trash', 'btn');
             _newItemDeleteButton.addEventListener('click', () => {
                 this.removeItem(_item);
             });
 
-            let _newItemContextButton = document.createElement('i');
+            let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
-            _newItemContextButton.classList.add('fa', 'fa-bars');
+            _newItemContextButton.classList.add('fa', 'fa-bars', 'btn');
+            //_newItemContextButton.dataset.target = "#Modal";
+            _newItemContextButton.setAttribute("id", "show-modal");
+
             
-            _newItemContextButton.addEventListener('click', (event) => { 
-                
-            });
             
 
             // Add both the buttons to the span tag.
@@ -396,7 +405,7 @@ class Card {
         _newButton.innerText = '+';
         _newButton.addEventListener('click', () => {
             let _inputValue = _newInput.value;
-            if (!_inputValue) return 0;
+            if (!_inputValue) return createAlert("Type a name for the item!");
             let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id);
             this.addItem(_item);
             _newInput.value = '';
@@ -453,6 +462,7 @@ class Board {
 
         let _newCard = _card.renderCard();
         e_cardsContainer.insertBefore(_newCard, e_cardsContainer.childNodes[e_cardsContainer.childNodes.length - 2]);
+        saveData();
     }
 }
 
@@ -728,7 +738,7 @@ e_addBoardText.addEventListener('keyup', (e) => {
 e_addBoardButton.addEventListener('click', addBoard);
 
 //e_saveButton.addEventListener('click', saveData);
-e_saveButton.addEventListener('click', () => {saveData(); alert("Data successfully saved.")});
+e_saveButton.addEventListener('click', () => {saveData(); createAlert("Data successfully saved.")});
 
 e_deleteButton.addEventListener('click', () => {
 
@@ -745,8 +755,7 @@ e_deleteButton.addEventListener('click', () => {
     }
     listBoards();
     renderBoard(appData.boards[0]);
-
-    alert(`Deleted board "${_boardName}"`)
+    createAlert(`Deleted board "${_boardName}"`)
 });
 
         e_sidebar.dataset.toggled = '';
@@ -765,4 +774,20 @@ function toggleSidebar() {
 
 e_sidebarButton.addEventListener('click', toggleSidebar);
 e_sidebarClose.addEventListener('click', toggleSidebar);
-ы
+
+/*------------alerts--------------*/
+
+function createAlert(text) {
+    let _e = document.createElement('div');
+    let _p = document.createElement('p');
+    _p.innerText = text;
+    _e.classList.add('alert');
+    _e.appendChild(_p);
+
+    e_alerts.appendChild(_e);
+    setTimeout(function(){
+        _e.parentNode.removeChild(_e);
+    }, 3500);
+}
+
+
