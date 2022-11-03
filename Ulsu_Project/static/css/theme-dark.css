@@ -71,8 +71,8 @@ body{
 }
 
 .modal-content {
-    background-color: #111111;
-    border: 2px solid #111111;
+    background-color: #373737;
+    border: 2px solid #373737;
 }
 
 .close {
@@ -85,11 +85,21 @@ body{
   }
   
   .modal-header {
-      background-color: #111111;
+      background-color: #373737;
       color: aliceblue;
   }
 
   .modal-footer {
-    background-color: #111111;
+    background-color: #373737;
     color: aliceblue;
+}
+
+.Modal_text{
+    font-size: larger;
+    color: aliceblue;
+}
+
+#Modal_description{
+    color: aliceblue;
+    font-size: larger;
 }

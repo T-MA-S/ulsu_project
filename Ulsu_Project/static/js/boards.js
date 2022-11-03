@@ -195,7 +195,7 @@ function addBoard() {
 /* <=================================== Classes ===================================> */
 class Item {
 
-    constructor(title, description=null, id, parentCardId) {
+    constructor(title, description, id, parentCardId) {
         this.title = title;
         this.description = description;  // A field for a future version, perhaps v2
         this.id = id;
@@ -256,9 +256,7 @@ class Card {
         renderCards();
     }
 
-   // openDescription(item){
-   //     item.description = 
-   // }
+   
 
     update() {
         for (let _item of this.items) {
@@ -266,6 +264,8 @@ class Card {
         }
     }
 
+
+    
     renderItems() {
         let _newItemList = document.createElement('ul');
         _newItemList.id = this.id + '-ul';
@@ -313,6 +313,7 @@ class Card {
                 this.removeItem(_item);
             });
 
+            /*-----------------Descriptions---------------------------------------------*/ 
 
             let modal = document.getElementById('myModal');
             let modalTitle = document.getElementById('MT');
@@ -328,7 +329,39 @@ class Card {
                 modalTitle.innerHTML = _item.title; 
                 ModalDescription.innerHTML = _item.description;
             });
+
+            let e_ButtonPush = document.getElementById('button-push');
             
+            function SetDescription(){
+                let text = "";
+                let inputValue = document.getElementById("DescriptionArea").value;
+                if (_item.description === null){
+                    _item.description = inputValue + "<br>";
+                }
+                else{
+                    _item.description += inputValue + "<br>";
+                    text = _item.description;
+                    console.log(2);
+                }
+                ModalDescription.innerHTML = text;
+                inputValue= "";
+                saveData();
+            }
+
+            function clearDescription() {
+                _item.description = "";
+                ModalDescription.innerHTML = _item.description;
+                console.log("clear");
+                saveData();
+            }
+
+            e_ButtonPush.addEventListener('click', SetDescription);
+
+            let e_BtnClearDescription = document.getElementById('BtnClear');
+
+            e_BtnClearDescription.addEventListener('click',clearDescription);
+
+
             span.addEventListener('click', () => {
                 modal.style.display = "none";
                 modalTitle.innerHTML = "";
@@ -339,10 +372,12 @@ class Card {
             window.addEventListener('click', (event) => {
                 if (event.target == modal) {
                 modal.style.display = "none";
+                modalTitle.innerHTML = "";
+                ModalDescription.innerHTML = "";
             }}); 
             
 
-            
+            /*-------------------------------------------------------------------*/
             
 
             // Add both the buttons to the span tag.

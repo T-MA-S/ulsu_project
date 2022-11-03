@@ -496,11 +496,20 @@ header {
       color: black;
   }
   
-  .modal-body {padding: 2px 16px;}
+  .modal-body {
+    padding: 2px 16px;
+    overflow: auto;
+}
   
+
   .modal-footer {
       padding: 2px 16px;
       background-color: aliceblue;
       color: black;
   }
 
+  .Modal_text{
+    font-size: larger;
+  }
+
+  
