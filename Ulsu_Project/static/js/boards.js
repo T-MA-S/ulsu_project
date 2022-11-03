@@ -315,14 +315,26 @@ class Card {
                 this.removeItem(_item);
             });
 
+
+            let modal = document.getElementById('myModal');
+            
+            let span = document.getElementsByClassName("close")[0];
             let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
             _newItemContextButton.classList.add('fa', 'fa-bars', 'btn', 'barsItem');
             //_newItemContextButton.dataset.target = "#Modal";
-            _newItemContextButton.setAttribute("id", "show-modal");
+            _newItemContextButton.setAttribute("id", "MyBtn");
             _newItemContextButton.addEventListener('click', () => {
-                e_ItemCotextMenu.classList.add('show');
+                modal.style.display = 'block';
             });
+            span.addEventListener('click', () => {modal.style.display = "none";})
+
+
+            window.addEventListener('click', (event) => {
+                if (event.target == modal) {
+                modal.style.display = "none";
+            }}); 
+            
 
             
             
@@ -807,5 +819,4 @@ function createAlert(text) {
 }
 
 
-/*----------Description-Modal-----------------------------------------------------------*/ 
 
