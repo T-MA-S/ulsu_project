@@ -316,7 +316,7 @@ class Card {
 
             let modal = document.getElementById('myModal');
             let modalTitle = document.getElementById('MT');
-            ;
+            let ModalDescription = document.getElementById('Modal_description');
             let span = document.getElementsByClassName("close")[0];
             let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
@@ -326,8 +326,14 @@ class Card {
             _newItemContextButton.addEventListener('click', () => {
                 modal.style.display = 'block';
                 modalTitle.innerHTML = _item.title; 
+                ModalDescription.innerHTML = _item.description;
             });
-            span.addEventListener('click', () => {modal.style.display = "none";})
+            
+            span.addEventListener('click', () => {
+                modal.style.display = "none";
+                modalTitle.innerHTML = "";
+                ModalDescription.innerHTML = "";
+            })
             
 
             window.addEventListener('click', (event) => {

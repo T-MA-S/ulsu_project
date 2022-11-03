@@ -4,51 +4,20 @@
 }
 
 .sidenav > ul > li {
-    display: flex;
-    font-size: 1rem;
     color: #f4f4f4;
     background-color: #373737;
-    padding: 0.5rem;
-    margin-right: 10px;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 3px 3px var(--primary-color-light);
-    height: 75px;
-    width: 150px;
-
 }
 
 .flex-col {
     background-color: #373737;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    margin-left: 9%;
-    border-radius: 0.5rem;
-    box-shadow: 3px 3px var(--primary-color-light);
-    height: 150px;
-    width: 150px;
 }
 
 #add-board-text {
-    width: 150px;
-    height: 150px;
     color: #f4f4f4;
 }
 
 .sidenav {
-    height: 200%;
-    width: 100%;
-    position: fixed;
-    z-index: 1;
-    top: -50px;
-    left: 0;
     background-color: #111111;
-    overflow-x: hidden;
-    transition: 0.6s;
-    padding-top: 4rem;
 }
 
 .fs-4{
@@ -60,30 +29,16 @@
 }
 
 .parent-card {
-    flex-shrink: 0;
-    padding: 1rem 0.5rem;
     background-color: #373737;
-    border-radius: 0.3rem;
-    width: 18.5rem;
     transition: 0.5s linear;
 }
 
 .card-title {
-    font-size: 1.2rem;
     color: #f4f4f4;
 }
 
 body{
     background-image: url('/static/icons/ulsu-dark.jpg');
-    background-size: cover;
-    background-repeat: no-repeat; 
-    background-position: center center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    height: 100%;
-    margin: 0;
-    overflow-y: hidden; /* Hide vertical scrollbar */
-    
-    
 }
 
 .fa{
@@ -116,42 +71,25 @@ body{
 }
 
 .modal-content {
-    position: relative;
     background-color: #111111;
-    margin: auto;
-    padding: 0;
-    border: 5px solid #111111;
-    width: 50%;
-    height: 50%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s
+    border: 2px solid #111111;
 }
 
 .close {
     color: aliceblue;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
 }
 
 .close:hover,
   .close:focus {
       color: aliceblue;
-      text-decoration: none;
-      cursor: pointer;
   }
   
   .modal-header {
-      padding: 2px 16px;
       background-color: #111111;
       color: aliceblue;
   }
 
   .modal-footer {
-    padding: 2px 16px;
     background-color: #111111;
     color: aliceblue;
 }
