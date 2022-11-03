@@ -207,8 +207,6 @@ class Item {
         return document.getElementById(this.parentCardId);
     }
 
-    
-
     check(chk=true) {
         this.isDone = chk;
         if (chk) {
@@ -317,7 +315,8 @@ class Card {
 
 
             let modal = document.getElementById('myModal');
-            
+            let modalTitle = document.getElementById('MT');
+            ;
             let span = document.getElementsByClassName("close")[0];
             let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
@@ -326,9 +325,10 @@ class Card {
             _newItemContextButton.setAttribute("id", "MyBtn");
             _newItemContextButton.addEventListener('click', () => {
                 modal.style.display = 'block';
+                modalTitle.innerHTML = _item.title; 
             });
             span.addEventListener('click', () => {modal.style.display = "none";})
-
+            
 
             window.addEventListener('click', (event) => {
                 if (event.target == modal) {

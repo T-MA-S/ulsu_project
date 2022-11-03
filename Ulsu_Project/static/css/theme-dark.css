@@ -114,3 +114,44 @@ body{
 .cardTitledark{
     color: #111111;
 }
+
+.modal-content {
+    position: relative;
+    background-color: #111111;
+    margin: auto;
+    padding: 0;
+    border: 5px solid #111111;
+    width: 50%;
+    height: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.close {
+    color: aliceblue;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+  .close:focus {
+      color: aliceblue;
+      text-decoration: none;
+      cursor: pointer;
+  }
+  
+  .modal-header {
+      padding: 2px 16px;
+      background-color: #111111;
+      color: aliceblue;
+  }
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #111111;
+    color: aliceblue;
+}
