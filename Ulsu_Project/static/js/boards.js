@@ -317,7 +317,7 @@ class Card {
 
             let modal = document.getElementById('myModal');
             let modalTitle = document.getElementById('MT');
-            let ModalDescription = document.getElementById('Modal_description');
+            let str;
             let span = document.getElementsByClassName("close")[0];
             let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
@@ -327,26 +327,34 @@ class Card {
             _newItemContextButton.addEventListener('click', () => {
                 modal.style.display = 'block';
                 modalTitle.innerHTML = _item.title; 
-                ModalDescription.innerHTML = _item.description;
+                str = _item.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
+                ModalDescription.innerHTML = str;
             });
-
-            let e_ButtonPush = document.getElementById('button-push');
             
-            function SetDescription(){
-                let text = "";
-                let inputValue = document.getElementById("DescriptionArea").value;
-                if (_item.description === null){
-                    _item.description = inputValue + "<br>";
-                }
-                else{
-                    _item.description += inputValue + "<br>";
-                    text = _item.description;
-                    console.log(2);
-                }
-                ModalDescription.innerHTML = text;
-                inputValue= "";
-                saveData();
-            }
+            let e_ModalDescriptionBtn = document.getElementById('EditDescriptionBtn');
+            let ModalDescription = document.getElementById('Modal_description');
+            e_ModalDescriptionBtn.addEventListener('click', (e) => {
+                let _input = document.createElement('textarea');
+                _input.value = ModalDescription.innerHTML;
+                _input.value = _input.value.replace(/<br\s*\/?>/ig, "\r\n")
+                _input.classList.add('description-text');
+                ModalDescription.replaceWith(_input);
+
+                let _save = () => {
+                    _item.description = _input.value;
+                    str = _input.value.replace(/(?:\r\n|\r|\n)/g, "<br>");
+                    saveData();
+                    _input.replaceWith(ModalDescription);
+                    ModalDescription.innerHTML = str;
+                    renderCards();
+
+                };
+
+                _input.addEventListener('blur', _save, {
+                    once: true,
+                });
+                _input.focus();
+            });
 
             function clearDescription() {
                 _item.description = "";
@@ -355,7 +363,7 @@ class Card {
                 saveData();
             }
 
-            e_ButtonPush.addEventListener('click', SetDescription);
+            
 
             let e_BtnClearDescription = document.getElementById('BtnClear');
 

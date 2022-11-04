@@ -510,6 +510,22 @@ header {
 
   .Modal_text{
     font-size: larger;
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word
+  }
+
+  .modal_description_container{
+    width: 100%;
+    height: 70%;
+  }
+
+  .description-text{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: aliceblue;
+    
   }
 
   
