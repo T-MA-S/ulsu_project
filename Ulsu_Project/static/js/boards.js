@@ -744,7 +744,6 @@ const cardContextMenu_hide = (e) => {
 
 const cardContextMenu_clearCard = () => {
     let _currentCardObject = getCardFromElement(cardContextMenu_currentCard);
-
     _currentCardObject.items.length = 0;
     renderCards();
     saveData();
@@ -752,11 +751,9 @@ const cardContextMenu_clearCard = () => {
 
 const cardContextMenu_deleteCard = () => {
     let _currentCardObject = getCardFromElement(cardContextMenu_currentCard);
-
     // Remove the card from the cards list based on its index position.
     currentCards().splice(currentCards().indexOf(_currentCardObject), 1);
     cardContextMenu_hide({target:{offsetParent:'n/a'}}); // this is really stupid but it works, LoL
-
     renderCards();
 }
 
