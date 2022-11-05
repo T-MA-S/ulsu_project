@@ -319,6 +319,7 @@ class Card {
             let modalTitle = document.getElementById('MT');
             let str;
             let span = document.getElementsByClassName("close")[0];
+            let ModalDescription = document.getElementById('Modal_description');
             let _newItemContextButton = document.createElement('button');
             _newItemContextButton.ariaHidden = true;
             _newItemContextButton.classList.add('fa', 'fa-bars', 'btn', 'barsItem');
@@ -327,62 +328,66 @@ class Card {
             _newItemContextButton.addEventListener('click', () => {
                 modal.style.display = 'block';
                 modalTitle.innerHTML = _item.title; 
-                str = _item.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
-                ModalDescription.innerHTML = str;
-            });
-            
-            let e_ModalDescriptionBtn = document.getElementById('EditDescriptionBtn');
-            let ModalDescription = document.getElementById('Modal_description');
-            e_ModalDescriptionBtn.addEventListener('click', (e) => {
-                let _input = document.createElement('textarea');
-                _input.value = ModalDescription.innerHTML;
-                _input.value = _input.value.replace(/<br\s*\/?>/ig, "\r\n")
-                _input.classList.add('description-text');
-                ModalDescription.replaceWith(_input);
-
-                let _save = () => {
-                    _item.description = _input.value;
-                    str = _input.value.replace(/(?:\r\n|\r|\n)/g, "<br>");
+                if (_item.description != null){
+                    ModalDescription.innerHTML = _item.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
+                }
+                else{
+                    ModalDescription.innerHTML = "";
+                }
+                let e_ModalDescriptionBtn = document.createElement('button');
+                
+                let e_BtnClearDescription = document.getElementById('BtnClear');
+                e_BtnClearDescription.addEventListener('click',() => {
+                    _item.description = "";
+                    ModalDescription.innerHTML = _item.description;
+                    console.log("clear");
                     saveData();
-                    _input.replaceWith(ModalDescription);
-                    ModalDescription.innerHTML = str;
-                    renderCards();
-
-                };
-
-                _input.addEventListener('blur', _save, {
-                    once: true,
                 });
-                _input.focus();
+
+                span.addEventListener('click', () => {
+                    modal.style.display = "none";
+                    modalTitle.innerHTML = "";
+                    ModalDescription.innerHTML = "";
+                    document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                })
+                
+    
+                window.addEventListener('click', (event) => {
+                    if (event.target == modal) {
+                    modal.style.display = "none";
+                    modalTitle.innerHTML = "";
+                    ModalDescription.innerHTML = "";
+                    document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                }}); 
+
+                e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
+                e_ModalDescriptionBtn.innerHTML = "Изменить описание";
+                document.getElementById('MTC').appendChild(e_ModalDescriptionBtn);
+                e_ModalDescriptionBtn.addEventListener('click', () => {
+                    let _input = document.createElement('textarea');
+                    _input.value = ModalDescription.innerHTML;
+                    _input.value = _input.value.replace(/<br\s*\/?>/ig, "\r\n")
+                    _input.classList.add('description-text');
+                    ModalDescription.replaceWith(_input);
+    
+                    let _save = (str) => {
+                        _item.description = _input.value;
+                        saveData();
+                        _input.replaceWith(ModalDescription);
+                        ModalDescription.innerHTML = _item.description.replace(/(?:\r\n|\r|\n)/g, "<br>");;
+                        renderCards();
+                        _input.value = "";
+                    };
+    
+                    _input.addEventListener('blur', _save, {
+                        once: true,
+                    });
+                    _input.focus();
+                });
             });
-
-            function clearDescription() {
-                _item.description = "";
-                ModalDescription.innerHTML = _item.description;
-                console.log("clear");
-                saveData();
-            }
-
             
-
-            let e_BtnClearDescription = document.getElementById('BtnClear');
-
-            e_BtnClearDescription.addEventListener('click',clearDescription);
-
-
-            span.addEventListener('click', () => {
-                modal.style.display = "none";
-                modalTitle.innerHTML = "";
-                ModalDescription.innerHTML = "";
-            })
-            
-
-            window.addEventListener('click', (event) => {
-                if (event.target == modal) {
-                modal.style.display = "none";
-                modalTitle.innerHTML = "";
-                ModalDescription.innerHTML = "";
-            }}); 
+            //let e_ModalDescriptionBtn = document.getElementById('EditDescriptionBtn');
+                        
             
 
             /*-------------------------------------------------------------------*/
@@ -866,6 +871,3 @@ function createAlert(text) {
         _e.parentNode.removeChild(_e);
     }, 4500);
 }
-
-
-
