@@ -334,6 +334,7 @@ class Card {
                 else{
                     ModalDescription.innerHTML = "";
                 }
+
                 let e_ModalDescriptionBtn = document.createElement('button');
                 
                 let e_BtnClearDescription = document.createElement('button');
@@ -356,9 +357,7 @@ class Card {
                         document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
                     }
-                    catch{
-                        
-                    }
+                    catch{}
                 })
                 
     
@@ -371,9 +370,7 @@ class Card {
                         document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
                     }
-                    catch{
-                        
-                    }
+                    catch{}
                 }}); 
 
                 e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
@@ -750,6 +747,7 @@ const cardContextMenu_clearCard = () => {
 
     _currentCardObject.items.length = 0;
     renderCards();
+    saveData();
 };
 
 const cardContextMenu_deleteCard = () => {
