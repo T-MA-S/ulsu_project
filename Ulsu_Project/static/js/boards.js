@@ -334,9 +334,14 @@ class Card {
                 else{
                     ModalDescription.innerHTML = "";
                 }
+
                 let e_ModalDescriptionBtn = document.createElement('button');
                 
-                let e_BtnClearDescription = document.getElementById('BtnClear');
+                let e_BtnClearDescription = document.createElement('button');
+                e_BtnClearDescription.classList.add('BtnClear', 'btn', 'btn-primary');
+                e_BtnClearDescription.innerHTML = 'Удалить';
+                document.getElementById('MTF').appendChild(e_BtnClearDescription);
+                e_BtnClearDescription
                 e_BtnClearDescription.addEventListener('click',() => {
                     _item.description = "";
                     ModalDescription.innerHTML = _item.description;
@@ -348,7 +353,11 @@ class Card {
                     modal.style.display = "none";
                     modalTitle.innerHTML = "";
                     ModalDescription.innerHTML = "";
-                    document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                    try{
+                        document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                        document.getElementById('MTF').removeChild(e_BtnClearDescription);
+                    }
+                    catch{}
                 })
                 
     
@@ -357,7 +366,11 @@ class Card {
                     modal.style.display = "none";
                     modalTitle.innerHTML = "";
                     ModalDescription.innerHTML = "";
-                    document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                    try{
+                        document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                        document.getElementById('MTF').removeChild(e_BtnClearDescription);
+                    }
+                    catch{}
                 }}); 
 
                 e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
@@ -734,6 +747,7 @@ const cardContextMenu_clearCard = () => {
 
     _currentCardObject.items.length = 0;
     renderCards();
+    saveData();
 };
 
 const cardContextMenu_deleteCard = () => {
