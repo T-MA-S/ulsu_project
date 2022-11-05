@@ -41,16 +41,25 @@ body {
 }
 
 .sidenav {
-    height: 100%;
-    width: 0;
+    height: 200%;
+    width: 100%;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: -50px;
     left: 0;
-    background-color: #233138;
+    background-color: aliceblue;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: 0.6s;
     padding-top: 4rem;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sidenav::-webkit-scrollbar{
+    width: 0;
+    height: 0;
 }
 
 .sidenav p.is-title {
@@ -58,7 +67,8 @@ body {
     color: #818181;
     display: block;
     transition: 0.3s;
-    text-align: center;
+    text-align: left;
+    margin-left: 10%;
 }
 
 .sidenav p:hover {
@@ -71,14 +81,18 @@ body {
 }
 
 .sidenav > ul > li {
+    display: flex;
     font-size: 1rem;
     color: black;
     background-color: #f3f3f3;
     padding: 0.5rem;
-    margin-inline: 1em;
+    margin-right: 10px;
     margin-bottom: 1rem;
     border-radius: 0.5rem;
     box-shadow: 3px 3px var(--primary-color-light);
+    height: 75px;
+    width: 150px;
+    
 }
 
 .sidenav > ul > li.is-active {
@@ -95,14 +109,14 @@ body {
     box-shadow: 3px 3px var(--primary-color-dark);
 }
   
-.sidenav #sidebar-close {
-    color: gray;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 2.25rem;
-    margin-left: 50px;
+#sidebar-close {
+    
+}
+
+.close-bt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -123,10 +137,11 @@ body {
 .parent-card {
     flex-shrink: 0;
     padding: 1rem 0.5rem;
-    background-color: #d9dfe9;
+    background-color: aliceblue;
     border-radius: 0.3rem;
     width: 18.5rem;
-    box-shadow: 3px 3px 3px rgba(17, 17, 17, 0.150);
+    
+    
 }
 
 .card-title {
@@ -149,6 +164,7 @@ body {
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
+    transition: 0.5s linear;
 }
 
 .parent-card > ul > li {
@@ -195,7 +211,9 @@ body {
     background-color: transparent;
     color: white;
     margin: 0;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+
 }
 
 input[type="text"] {
@@ -246,8 +264,10 @@ input[type="text"]:focus {
 }
 
 #add-board-text {
-    width:100%;
-    color:white;
+    width:150px;
+    height: 150px;
+    color:black;
+
 }
 
 .plus-button {
@@ -278,10 +298,17 @@ header {
 }
 
 .flex-col {
+    background-color: #f3f3f3;
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 0.5rem;
+    padding: 0.5rem;
+    margin-left: 9%;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px var(--primary-color-light);
+    height: 150px;
+    width: 150px;
 }
 
 /* Context Menu */
@@ -321,3 +348,184 @@ header {
     padding: 0;
 }
 
+#boards-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-left: 9%;
+    padding-left: 0 ;
+    flex-wrap:wrap ;
+    
+}
+
+
+
+.theme {
+    position:fixed;
+    cursor: pointer;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(39,38,40,0.4);
+}   
+
+@media only screen and (max-device-width: 800px) {
+    .theme{
+        top: 90%;
+    }
+}
+
+@media (max-device-width: 800px) {
+    .theme{
+        top: 90%;
+    }
+}
+
+.fa-floppy-o{
+    display: none;
+}
+
+/*--------alerts-------------*/
+
+#alert-container {
+    position: relative;
+}
+
+#alerts {
+    position: absolute;
+    bottom: 20px;
+    right:40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.alert {
+    background-color: white;
+    color: black;
+    padding-block: 0.2rem;
+    padding-inline: 2rem;
+    border-left: 5px solid red;
+    border-radius: 0.5rem;
+    z-index: 9;
+    transition: linear 0.5s;
+}
+
+.animate-hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.35s, opacity 0.35s linear;
+}
+
+#myBtn {
+    background-color: #9C27B0;
+    color: white;
+    padding: 12px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    width: 180px;
+  }
+  
+  
+  .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  
+  .modal-content {
+      position: relative;
+      background-color: aliceblue;
+      margin: auto;
+      padding: 0;
+      border: 5px solid aliceblue;
+      width: 50%;
+      height: 50%;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      -webkit-animation-name: animatetop;
+      -webkit-animation-duration: 0.4s;
+      animation-name: animatetop;
+      animation-duration: 0.4s
+  }
+  
+  
+  @-webkit-keyframes animatetop {
+      from {top:-300px; opacity:0} 
+      to {top:0; opacity:1}
+  }
+  
+  @keyframes animatetop {
+      from {top:-300px; opacity:0}
+      to {top:0; opacity:1}
+  }
+  
+  
+  .close {
+      color: black;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+  }
+  
+  .modal-header {
+      padding: 2px 16px;
+      background-color: aliceblue;
+      color: black;
+  }
+  
+  .modal-body {
+    padding: 2px 16px;
+    overflow: auto;
+}
+  
+
+  .modal-footer {
+      padding: 2px 16px;
+      background-color: aliceblue;
+      color: black;
+  }
+
+  .Modal_text{
+    font-size: larger;
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word
+  }
+
+  .modal_description_container{
+    width: 100%;
+    height: 70%;
+  }
+
+  .description-text{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: aliceblue;
+    
+  }
+
+  

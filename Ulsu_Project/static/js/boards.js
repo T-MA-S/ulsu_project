@@ -26,7 +26,13 @@ const e_cardContextMenuDelete = document.getElementById('card-context-menu-delet
 const e_cardContextMenuClear = document.getElementById('card-context-menu-clear');
 const e_cardContextMenuDuplicate = document.getElementById('card-context-menu-duplicate');
 
+const e_ItemCotextMenu = document.getElementById('Modal');
+const e_ItemContextMenuBtn = document.getElementById('show-modal');
+
+const e_alerts = document.getElementById('alerts');
+
 const e_title = document.getElementById('title');
+
 
 var appData = {
     'boards': [],
@@ -46,6 +52,8 @@ function currentCards() {
 function currentBoard() {
     return appData.boards[appData.currentBoard];
 }
+
+
 
 /* <=================================== Extensions ===================================> */
 Array.prototype.move = function(from, to) {
@@ -110,6 +118,8 @@ function listBoards() {
         _boardTitle.id = _board.id;
         if (_board.id === currentBoard().id) _boardTitle.classList.add('is-active');
         _boardTitle.addEventListener('click', () => {
+            delete e_sidebar.dataset.toggled;
+            e_sidebar.style.width = "0";
             renderBoard(_board);
             listBoards();
         });
@@ -124,6 +134,7 @@ function renderBoard(board) {
     //e_title.addEventListener('click'), allow editing board name
     // To-Do: set theme
     renderCards();
+    saveData();
 }
 
 function renderCards() {
@@ -141,6 +152,7 @@ function renderCards() {
         e_cardsContainer.insertBefore(_generated, e_cardsContainer.childNodes[e_cardsContainer.childNodes.length - 2]);
         // Update the card for event listeners and etc...
         _card.update();
+        saveData();
     }
 }
 
@@ -170,19 +182,20 @@ function addBoard() {
     /* Adds a new board based on the input in the sidebar. */
 
     let _boardTitle = e_addBoardText.value;
-    if (!_boardTitle) return alert("Type a name for the board!");  // We don't create a board if it has no name.
-    if (appData.boards.length >= 512) return alert("Max limit for boards reached.")  // or if there are already too many boards
+    if (!_boardTitle) return createAlert("Type a name for the board!");;  // We don't create a board if it has no name.
+    if (appData.boards.length >= 512) return createAlert("Max limit for boards reached.")  // or if there are already too many boards
     e_addBoardText.value = '';
 
     let _newBoard = new Board(_boardTitle, uniqueID(), {'theme': null});
     appData.boards.push(_newBoard);
     listBoards();
+    saveData();
 }
 
 /* <=================================== Classes ===================================> */
 class Item {
 
-    constructor(title, description=null, id, parentCardId) {
+    constructor(title, description, id, parentCardId) {
         this.title = title;
         this.description = description;  // A field for a future version, perhaps v2
         this.id = id;
@@ -243,12 +256,16 @@ class Card {
         renderCards();
     }
 
+   
+
     update() {
         for (let _item of this.items) {
             _item.update();
         }
     }
 
+
+    
     renderItems() {
         let _newItemList = document.createElement('ul');
         _newItemList.id = this.id + '-ul';
@@ -265,9 +282,9 @@ class Card {
             let _newItemButtons = document.createElement('span');
 
             // Edit button. Allows the user to rename the item.
-            let _newItemEditButton = document.createElement('i');
+            let _newItemEditButton = document.createElement('button');
             _newItemEditButton.ariaHidden = true;
-            _newItemEditButton.classList.add('fa', 'fa-pencil');
+            _newItemEditButton.classList.add('fa', 'fa-pencil', 'btn', 'pencilItem');
             _newItemEditButton.addEventListener('click', () => {
                 
                 // Card item editing functionality.
@@ -289,17 +306,97 @@ class Card {
             });
 
             // Delete button. ALlows the user to delete the item from the card.
-            let _newItemDeleteButton = document.createElement('i');
+            let _newItemDeleteButton = document.createElement('button');
             _newItemDeleteButton.ariaHidden = true;
-            _newItemDeleteButton.classList.add('fa', 'fa-trash');
+            _newItemDeleteButton.classList.add('fa', 'fa-trash', 'btn', 'trashItem');
             _newItemDeleteButton.addEventListener('click', () => {
                 this.removeItem(_item);
             });
 
+            /*-----------------Descriptions---------------------------------------------*/ 
+
+            let modal = document.getElementById('myModal');
+            let modalTitle = document.getElementById('MT');
+            let str;
+            let span = document.getElementsByClassName("close")[0];
+            let ModalDescription = document.getElementById('Modal_description');
+            let _newItemContextButton = document.createElement('button');
+            _newItemContextButton.ariaHidden = true;
+            _newItemContextButton.classList.add('fa', 'fa-bars', 'btn', 'barsItem');
+            //_newItemContextButton.dataset.target = "#Modal";
+            _newItemContextButton.setAttribute("id", "MyBtn");
+            _newItemContextButton.addEventListener('click', () => {
+                modal.style.display = 'block';
+                modalTitle.innerHTML = _item.title; 
+                if (_item.description != null){
+                    ModalDescription.innerHTML = _item.description.replace(/(?:\r\n|\r|\n)/g, "<br>");
+                }
+                else{
+                    ModalDescription.innerHTML = "";
+                }
+                let e_ModalDescriptionBtn = document.createElement('button');
+                
+                let e_BtnClearDescription = document.getElementById('BtnClear');
+                e_BtnClearDescription.addEventListener('click',() => {
+                    _item.description = "";
+                    ModalDescription.innerHTML = _item.description;
+                    console.log("clear");
+                    saveData();
+                });
+
+                span.addEventListener('click', () => {
+                    modal.style.display = "none";
+                    modalTitle.innerHTML = "";
+                    ModalDescription.innerHTML = "";
+                    document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                })
+                
+    
+                window.addEventListener('click', (event) => {
+                    if (event.target == modal) {
+                    modal.style.display = "none";
+                    modalTitle.innerHTML = "";
+                    ModalDescription.innerHTML = "";
+                    document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
+                }}); 
+
+                e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
+                e_ModalDescriptionBtn.innerHTML = "Изменить описание";
+                document.getElementById('MTC').appendChild(e_ModalDescriptionBtn);
+                e_ModalDescriptionBtn.addEventListener('click', () => {
+                    let _input = document.createElement('textarea');
+                    _input.value = ModalDescription.innerHTML;
+                    _input.value = _input.value.replace(/<br\s*\/?>/ig, "\r\n")
+                    _input.classList.add('description-text');
+                    ModalDescription.replaceWith(_input);
+    
+                    let _save = (str) => {
+                        _item.description = _input.value;
+                        saveData();
+                        _input.replaceWith(ModalDescription);
+                        ModalDescription.innerHTML = _item.description.replace(/(?:\r\n|\r|\n)/g, "<br>");;
+                        renderCards();
+                        _input.value = "";
+                    };
+    
+                    _input.addEventListener('blur', _save, {
+                        once: true,
+                    });
+                    _input.focus();
+                });
+            });
+            
+            //let e_ModalDescriptionBtn = document.getElementById('EditDescriptionBtn');
+                        
+            
+
+            /*-------------------------------------------------------------------*/
+            
+
             // Add both the buttons to the span tag.
             _newItemButtons.appendChild(_newItemEditButton);
             _newItemButtons.appendChild(_newItemDeleteButton);
-
+            _newItemButtons.appendChild(_newItemContextButton);
             // Add the title, span tag to the item and the item itself to the list.
             _newItem.appendChild(_newItemTitle);
             _newItem.appendChild(_newItemButtons);
@@ -342,7 +439,7 @@ class Card {
         _newCardHeaderTitle.addEventListener('click', (e) => {
             let _input = document.createElement('input');
             _input.value = _newCardHeaderTitle.textContent;
-            _input.classList.add('card-title');
+            _input.classList.add('card-title', 'cardTitledark');
             _input.maxLength = 128;
             _newCardHeaderTitle.replaceWith(_input);
 
@@ -384,7 +481,7 @@ class Card {
         _newButton.innerText = '+';
         _newButton.addEventListener('click', () => {
             let _inputValue = _newInput.value;
-            if (!_inputValue) return alert("Type a name for the item!");
+            if (!_inputValue) return createAlert("Type a name for the item!");
             let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id);
             this.addItem(_item);
             _newInput.value = '';
@@ -441,6 +538,7 @@ class Board {
 
         let _newCard = _card.renderCard();
         e_cardsContainer.insertBefore(_newCard, e_cardsContainer.childNodes[e_cardsContainer.childNodes.length - 2]);
+        saveData();
     }
 }
 
@@ -472,6 +570,8 @@ const cardDrag_startDragging = (e) => {
     // Set the position of the item to absolute
     // This allows us to take the element out of the document flow and play with its coordinates.
     cardDrag_mouseDownOn.style.position = 'absolute';
+    cardDrag_mouseDownOn.style.transform = 'rotate(10deg)'
+    
 
     // Enable hover style css, which makes other cards and items darker when hovered over.
     toggleHoverStyle(true);
@@ -556,6 +656,7 @@ const cardDrag_stopDragging = (e) => {
     }
     cardDrag_mouseDown = false;
     cardDrag_mouseDownOn.style.position = 'static';
+    cardDrag_mouseDownOn.style.transform = 'rotate(0deg)'
     cardDrag_mouseDownOn = null;
 };
 
@@ -716,7 +817,7 @@ e_addBoardText.addEventListener('keyup', (e) => {
 e_addBoardButton.addEventListener('click', addBoard);
 
 //e_saveButton.addEventListener('click', saveData);
-e_saveButton.addEventListener('click', () => {saveData(); alert("Data successfully saved.")});
+e_saveButton.addEventListener('click', () => {saveData(); createAlert("Data successfully saved.")});
 
 e_deleteButton.addEventListener('click', () => {
 
@@ -733,9 +834,11 @@ e_deleteButton.addEventListener('click', () => {
     }
     listBoards();
     renderBoard(appData.boards[0]);
-
-    alert(`Deleted board "${_boardName}"`)
+    createAlert(`Deleted board "${_boardName}"`)
 });
+
+        e_sidebar.dataset.toggled = '';
+    e_sidebar.style.width = "100%";
 
 /* <=================================== Sidebar ===================================> */
 function toggleSidebar() {
@@ -744,9 +847,27 @@ function toggleSidebar() {
         e_sidebar.style.width = "0";
     } else {
         e_sidebar.dataset.toggled = '';
-        e_sidebar.style.width = "250px";
+        e_sidebar.style.width = "100%";
     }
 }
 
 e_sidebarButton.addEventListener('click', toggleSidebar);
 e_sidebarClose.addEventListener('click', toggleSidebar);
+
+/*------------alerts--------------*/
+
+function createAlert(text) {
+    let _e = document.createElement('div');
+    let _p = document.createElement('p');
+    _p.innerText = text;
+    _e.classList.add('alert');
+    _e.appendChild(_p);
+
+    e_alerts.appendChild(_e);
+    setTimeout(function(){
+        _e.classList.add('animate-hidden');
+    }, 3500);
+    setTimeout(function(){
+        _e.parentNode.removeChild(_e);
+    }, 4500);
+}
