@@ -358,7 +358,7 @@ class Card {
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
                     }
                     catch{
-                        console.log('tixon lox');
+                        
                     }
                 })
                 
@@ -568,8 +568,8 @@ const cardDrag_update = (e) => {
 
     // The card must be at the same coordinates as the mouse cursor.
     // This simulates the effect of the card being grabbed by the cursor.
-    cardDrag_mouseDownOn.style.left = e.pageX - 90 + 'px';
-    cardDrag_mouseDownOn.style.top = e.pageY - 20 + 'px';
+    cardDrag_mouseDownOn.style.left = e.pageX + 'px';
+    cardDrag_mouseDownOn.style.top = e.pageY + 'px';
 };
 
 const cardDrag_startDragging = (e) => {
