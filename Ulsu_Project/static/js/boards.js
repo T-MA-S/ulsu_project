@@ -339,7 +339,7 @@ class Card {
                 
                 let e_BtnClearDescription = document.createElement('button');
                 e_BtnClearDescription.classList.add('BtnClear', 'btn', 'btn-primary');
-                e_BtnClearDescription.innerHTML = 'Удалить';
+                e_BtnClearDescription.innerHTML = 'Clear';
                 document.getElementById('MTF').appendChild(e_BtnClearDescription);
                 e_BtnClearDescription
                 e_BtnClearDescription.addEventListener('click',() => {
@@ -374,7 +374,7 @@ class Card {
                 }}); 
 
                 e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
-                e_ModalDescriptionBtn.innerHTML = "Изменить описание";
+                e_ModalDescriptionBtn.innerHTML = "Edit description";
                 document.getElementById('MTC').appendChild(e_ModalDescriptionBtn);
                 e_ModalDescriptionBtn.addEventListener('click', () => {
                     let _input = document.createElement('textarea');
