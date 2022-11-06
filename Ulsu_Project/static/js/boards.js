@@ -357,7 +357,9 @@ class Card {
                         document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
                     }
-                    catch{}
+                    catch{
+                        console.log('tixon lox');
+                    }
                 })
                 
     
