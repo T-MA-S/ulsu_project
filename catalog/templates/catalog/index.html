@@ -21,13 +21,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
         <link rel="stylesheet" title="theme" href="#"><!--themes--> 
-        <title>Kards | Simple Kanban Board</title>
+        <title>Доска | Simple Kanban Board</title>
     </head>
     <body>
         <header>
             <div class="header-flex">
                 <span id="sidebar-button" style="font-size:25px;cursor:pointer">&#9776;</span>
-                <h1 id="title" class="text-align-center">Kards</h1>
+                <h1 id="title" class="text-align-center">Board</h1>
                 <span style="font-size:25px;cursor:pointer;letter-spacing: 1ch;">
                     <i title="Quit" id="quit-button" class="fa fa-quit"><img src="/Ulsu_Project/static/icons/exit-svgrepo-com.svg" alt=""></i>
                     <i title="Delete this board." id="delete-button" class="fa fa-trash"></i>
@@ -47,14 +47,14 @@
               
                     <ul class="nav nav-pills">
                       <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                      <li class="nav-item"><a href="#" class="nav-link">Autors</a></li>
-                      <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Quit</a></li>
+                      <li class="nav-item"><a href="#" class="nav-link">Авторы</a></li>
+                      <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Выйти</a></li>
                       <li class="nav-item my-auto mx-auto"><div class="close-bt"><button type="button" class="btn-close px-2" aria-label="Close" id="sidebar-close"></button></div></li>
                     </ul>
                 </header>
             </header>
             
-            <p class="is-title">Boards</p>
+            <p class="is-title">Ваши рабочие пространства</p>
             <ul id="boards-list"></ul>
 
             <div class="theme">
@@ -63,23 +63,23 @@
             </div>
 
             <div class="flex-col">
-                <input type="text" id="add-board-text" name="add-board" placeholder="Add Board...">
-                <button id="add-board-button">Add Board</button>
+                <input type="text" id="add-board-text" name="add-board" placeholder="Добавить доску...">
+                <button id="add-board-button">добавить</button>
             </div>            
         </div>
 
         <div id="card-context-menu" class="context-menu">
             <ul>
-                <li id="card-context-menu-delete">Delete</li>
-                <li id="card-context-menu-clear">Clear</li>
-                <li id="card-context-menu-duplicate">Duplicate</li>
+                <li id="card-context-menu-delete">Удалить</li>
+                <li id="card-context-menu-clear">Очистить</li>
+                <li id="card-context-menu-duplicate">Дублировать</li>
             </ul>
         </div>
 
         <div class="container" id="main-container">
             <div id="cards-container">
                 <div id="add-card">
-                    <input maxlength="128" type="text" id="add-card-text" name="add-card" placeholder="Add Card..." autofocus>
+                    <input maxlength="128" type="text" id="add-card-text" name="add-card" placeholder="Добавить колонку.." autofocus>
                     <button id="add-card-button" class="plus-button">+</button>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                 <h4 class="Modal-Title" id="MT"></h4>
               </div>
               <div class="modal-body" id="MTC">
-                <p class="Modal_text">Description:</p>
+                <p class="Modal_text">Описание:</p>
                 <div class="modal_description_container">
                     <div id="Modal_description"></div>
                 </div>

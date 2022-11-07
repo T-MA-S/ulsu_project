@@ -129,7 +129,7 @@ function listBoards() {
 
 function renderBoard(board) {
     appData.currentBoard = appData.boards.indexOf(board);
-    document.title = 'Kards | ' + currentBoard().name;
+    document.title = 'Доска | ' + currentBoard().name;
     e_title.innerText = currentBoard().name;
     //e_title.addEventListener('click'), allow editing board name
     // To-Do: set theme
@@ -182,8 +182,8 @@ function addBoard() {
     /* Adds a new board based on the input in the sidebar. */
 
     let _boardTitle = e_addBoardText.value;
-    if (!_boardTitle) return createAlert("Type a name for the board!");;  // We don't create a board if it has no name.
-    if (appData.boards.length >= 512) return createAlert("Max limit for boards reached.")  // or if there are already too many boards
+    if (!_boardTitle) return createAlert("Введите корректное имя для доски!");;  // We don't create a board if it has no name.
+    if (appData.boards.length >= 512) return createAlert("Достигнут лимит досок.")  // or if there are already too many boards
     e_addBoardText.value = '';
 
     let _newBoard = new Board(_boardTitle, uniqueID(), {'theme': null});
@@ -339,7 +339,7 @@ class Card {
                 
                 let e_BtnClearDescription = document.createElement('button');
                 e_BtnClearDescription.classList.add('BtnClear', 'btn', 'btn-primary');
-                e_BtnClearDescription.innerHTML = 'Clear';
+                e_BtnClearDescription.innerHTML = 'Очистить';
                 document.getElementById('MTF').appendChild(e_BtnClearDescription);
                 e_BtnClearDescription
                 e_BtnClearDescription.addEventListener('click',() => {
@@ -376,7 +376,7 @@ class Card {
                 }}); 
 
                 e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
-                e_ModalDescriptionBtn.innerHTML = "Edit description";
+                e_ModalDescriptionBtn.innerHTML = "Изменить описание";
                 document.getElementById('MTC').appendChild(e_ModalDescriptionBtn);
                 e_ModalDescriptionBtn.addEventListener('click', () => {
                     let _input = document.createElement('textarea');
@@ -484,7 +484,7 @@ class Card {
         _newInput.maxLength = 256;
         _newInput.type = 'text';
         _newInput.name = "add-todo-text";
-        _newInput.placeholder = "Add Task...";
+        _newInput.placeholder = "добавить карточку...";
         _newInput.addEventListener('keyup', (e) => {
             if (e.code === "Enter") _newButton.click();
         });
@@ -496,7 +496,7 @@ class Card {
         _newButton.innerText = '+';
         _newButton.addEventListener('click', () => {
             let _inputValue = _newInput.value;
-            if (!_inputValue) return createAlert("Type a name for the item!");
+            if (!_inputValue) return createAlert("Введите корректное имя карточки!");
             let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id);
             this.addItem(_item);
             _newInput.value = '';
@@ -847,7 +847,7 @@ e_deleteButton.addEventListener('click', () => {
     }
     listBoards();
     renderBoard(appData.boards[0]);
-    createAlert(`Deleted board "${_boardName}"`)
+    createAlert(`Удалена доска "${_boardName}"`)
 });
 
         e_sidebar.dataset.toggled = '';
