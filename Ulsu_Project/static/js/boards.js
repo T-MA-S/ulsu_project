@@ -339,7 +339,7 @@ class Card {
                 
                 let e_BtnClearDescription = document.createElement('button');
                 e_BtnClearDescription.classList.add('BtnClear', 'btn', 'btn-primary');
-                e_BtnClearDescription.innerHTML = 'Удалить';
+                e_BtnClearDescription.innerHTML = 'Clear';
                 document.getElementById('MTF').appendChild(e_BtnClearDescription);
                 e_BtnClearDescription
                 e_BtnClearDescription.addEventListener('click',() => {
@@ -357,7 +357,9 @@ class Card {
                         document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
                     }
-                    catch{}
+                    catch{
+                        
+                    }
                 })
                 
     
@@ -374,7 +376,7 @@ class Card {
                 }}); 
 
                 e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
-                e_ModalDescriptionBtn.innerHTML = "Изменить описание";
+                e_ModalDescriptionBtn.innerHTML = "Edit description";
                 document.getElementById('MTC').appendChild(e_ModalDescriptionBtn);
                 e_ModalDescriptionBtn.addEventListener('click', () => {
                     let _input = document.createElement('textarea');
@@ -744,7 +746,6 @@ const cardContextMenu_hide = (e) => {
 
 const cardContextMenu_clearCard = () => {
     let _currentCardObject = getCardFromElement(cardContextMenu_currentCard);
-
     _currentCardObject.items.length = 0;
     renderCards();
     saveData();
@@ -752,11 +753,9 @@ const cardContextMenu_clearCard = () => {
 
 const cardContextMenu_deleteCard = () => {
     let _currentCardObject = getCardFromElement(cardContextMenu_currentCard);
-
     // Remove the card from the cards list based on its index position.
     currentCards().splice(currentCards().indexOf(_currentCardObject), 1);
     cardContextMenu_hide({target:{offsetParent:'n/a'}}); // this is really stupid but it works, LoL
-
     renderCards();
 }
 

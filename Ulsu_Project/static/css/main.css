@@ -464,6 +464,10 @@ header {
       animation-duration: 0.4s
   }
   
+  #Modal_description{
+    
+    font-size: larger;
+}
   
   @-webkit-keyframes animatetop {
       from {top:-300px; opacity:0} 
