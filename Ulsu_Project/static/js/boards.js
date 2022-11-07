@@ -850,7 +850,7 @@ e_deleteButton.addEventListener('click', () => {
     createAlert(`Удалена доска "${_boardName}"`)
 });
 
-        e_sidebar.dataset.toggled = '';
+    e_sidebar.dataset.toggled = '';
     e_sidebar.style.width = "100%";
 
 /* <=================================== Sidebar ===================================> */
