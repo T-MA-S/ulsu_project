@@ -76,12 +76,17 @@ function uniqueID() {
 
 function getMouseOverCard() {
     // The card the mouse cursor is currently over.
-    return document.querySelectorAll('.parent-card:hover')[0];
+    
+        return document.querySelectorAll('.parent-card:hover')[0];
+    
 }
 
 function getMouseOverItem() {
     // The task the mouse cursor is currently over.
-    return document.querySelectorAll('.parent-card > ul > li:hover')[0];
+    
+    
+        return document.querySelectorAll('.parent-card > ul > li:hover')[0];
+    
 }
 
 function getItemFromElement(element) {
@@ -167,7 +172,7 @@ function toggleHoverStyle(show) {
 
         // Card and item should turn slightly darker when move over.
         // This gives a visual feedback that makes it easier for the user to know positions during drag and drop.
-        _hoverStyle.innerHTML = ".parent-card:hover {background-color: #c7cbd1;}.parent-card > ul > li:hover {background-color: #d1d1d1;}";
+        _hoverStyle.innerHTML = ".parent-card:hover {background-color: #c7cbd1;}.parent-card > ul > li:hover {background-color: #d1d1d1;}.parent-card:valid {background-color: #c7cbd1;}.parent-card > ul > li:valid {background-color: #d1d1d1;}";
         document.body.appendChild(_hoverStyle);
     } else {
 
@@ -204,8 +209,9 @@ class Item {
     }
 
     getParentCard() {
-        return document.getElementById(this.parentCardId);
-    }
+        
+        return document.getElementById(this.parentCardId);}
+    
 
     check(chk=true) {
         this.isDone = chk;
@@ -233,6 +239,7 @@ class Item {
         });
 
         _element.addEventListener('mousedown', cardDrag_startDragging, false);
+        _element.addEventListener('touchstart', cardDrag_startDragging, false);
         this.check(this.isDone);
     }
 }
@@ -568,8 +575,13 @@ const cardDrag_update = (e) => {
 
     // The card must be at the same coordinates as the mouse cursor.
     // This simulates the effect of the card being grabbed by the cursor.
-    cardDrag_mouseDownOn.style.left = e.pageX + 'px';
-    cardDrag_mouseDownOn.style.top = e.pageY + 'px';
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        cardDrag_mouseDownOn.style.left = e.changedTouches[0].pageX + 'px'
+        cardDrag_mouseDownOn.style.top = e.changedTouches[0].pageY + 'px';
+    }else{
+        cardDrag_mouseDownOn.style.left = e.pageX + 'px';
+        cardDrag_mouseDownOn.style.top = e.pageY + 'px';
+    }
 };
 
 const cardDrag_startDragging = (e) => {
@@ -593,7 +605,6 @@ const cardDrag_startDragging = (e) => {
 };
 
 const cardDrag_stopDragging = (e) => {
-
     // Only run the stop dragging code if the mouse was previously held down on an item element.
     if (!cardDrag_mouseDown) return;
 
@@ -679,9 +690,14 @@ const cardDrag_stopDragging = (e) => {
 // NOTE03: It would be a better idea to make a single mouseMove/mouseLeave/mouseUp function
 // to handle both the drag scroll and card item dragging.
 // It'll save unnecessary processing + less event listeners. 
-e_mainContainer.addEventListener('mousemove', cardDrag_update);
+e_mainContainer.addEventListener('mousemove', cardDrag_update);//
+e_mainContainer.addEventListener('touchmove', cardDrag_update);//
+
 e_mainContainer.addEventListener('mouseleave', cardDrag_stopDragging, false);
-window.addEventListener('mouseup', cardDrag_stopDragging, false);
+e_mainContainer.addEventListener('touchend', cardDrag_stopDragging, false);
+
+window.addEventListener('mouseup', cardDrag_stopDragging, false);//
+window.addEventListener('touchend', cardDrag_stopDragging, false);//
 
 /* <=================================== Drag Scrolling ===================================> */
 // This feature allows the user to hold and drag the main cards container to scroll instead of holding the scrollbar.
@@ -710,8 +726,11 @@ const scroll_update = (e) => {
 
 // Add the event listeners
 e_mainContainer.addEventListener('mousemove', scroll_update);
+
 e_mainContainer.addEventListener('mousedown', scroll_startDragging, false);
+
 e_mainContainer.addEventListener('mouseup', scroll_stopDragging, false);
+
 e_mainContainer.addEventListener('mouseleave', scroll_stopDragging, false);
 
 
@@ -884,3 +903,4 @@ function createAlert(text) {
         _e.parentNode.removeChild(_e);
     }, 4500);
 }
+
