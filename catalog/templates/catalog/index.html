@@ -36,7 +36,10 @@
                 </span>
             </div>
         </header>
-        
+        <script>
+            var user_email = '{{ user_email }}';
+            var csrf = '{{ csrf_token }}'
+        </script>
         <div id="sidebar" class="sidenav">
             <header>
                 <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -104,7 +107,7 @@
               <div class="modal-footer" id="MTF"></div>
             </div>
         </div>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="{% static 'js/boards.js' %}"></script>
         <script src="{% static 'js/themes.js' %}"></script>
         

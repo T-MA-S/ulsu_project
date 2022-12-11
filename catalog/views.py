@@ -26,7 +26,6 @@ def test_email(request):
     return HttpResponse("email was sent")
 
 
-
 class UserModelListCreate(generics.ListCreateAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserModelSerializer
@@ -34,7 +33,10 @@ class UserModelListCreate(generics.ListCreateAPIView):
 
 def home(request):
     if request.user.is_authenticated:
-        return render(request, "catalog/index.html")
+        context = {
+            "user_email": request.user.email
+        }
+        return render(request, "catalog/index.html", context=context)
     else:
         return redirect('login')
 
@@ -50,6 +52,9 @@ def signup(request):
 
             user = UserModel(email=email, username=username)
             user.set_password(pass1)
+            board = Boards()
+            board.save()
+            user.boards = board
             user.save()
 
             return redirect('login')
@@ -87,7 +92,7 @@ def user_login(request):
         form = UserLoginForm()
     context = {
         "form": form,
-        "error":"",
+        "error": "",
     }
     return render(request, "catalog/sign_in.html", context=context)
 
@@ -127,6 +132,23 @@ def forgotpassword(request):
 
         form = GetEmailForm()
     return render(request, 'catalog/forgot_password.html', {'form': form})
+
+
+def get_user_data(request, email):
+    if request.method == "GET":
+        current_user = UserModel.objects.get(email=email)
+        return HttpResponse(current_user.boards.data)
+
+
+def post_user_data(request, email):
+    if request.method == "POST":
+        data = request.POST
+        current_user = UserModel.objects.get(email=email)
+        print(data['content'])
+        current_user.boards.data = data['content']
+        current_user.boards.save()
+
+        return HttpResponse("")
 
 
 def restore_password(request, access_code):

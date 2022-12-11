@@ -785,23 +785,40 @@ e_cardContextMenuDelete.addEventListener('click', cardContextMenu_deleteCard);
 
 /* <=================================== Persistent Data Storage ===================================> */
 function saveData() {
-    window.localStorage.setItem('kards-appData', JSON.stringify(appData));
+    $.ajax({
+    url: 'post_user_data/' + user_email,
+    type: 'post',
+    data: {
+        'content':JSON.stringify(appData),
+        'csrfmiddlewaretoken': csrf,
+    },
+    success: function(data) {
+        },
+    failure: function(data) {
+            alert('Ooops... Try again!');
+        }
+    });
 }
 
-function loadData() {
-    let _data = window.localStorage.getItem('kards-appData');
-    if (_data) {
-        let _appData = JSON.parse(_data);
 
-        // Since JSON doesn't store functions and such.
-        // We'll have to reinitailize the classes with the loaded data.
-        appData.settings = _appData.settings;
-        appData.currentBoard = _appData.currentBoard;
-        appData.identifier = _appData.identifier;
-        
-        // Fill the data with boards.
-        for (let _board of _appData.boards) {
-            let _newBoard = new Board(_board.name, _board.id, _board.settings, _board.identifier);
+function loadData() {
+    let _data;
+    $.ajax({
+    url: 'get_user_data/' + user_email,
+    type: 'get',
+    success: function(data) {
+            _data = data;
+
+            let _appData = JSON.parse(_data);
+            // Since JSON doesn't store functions and such.
+            // We'll have to reinitailize the classes with the loaded data.
+            appData.settings = _appData.settings;
+            appData.currentBoard = _appData.currentBoard;
+            appData.identifier = _appData.identifier;
+
+            // Fill the data with boards.
+            for (let _board of _appData.boards) {
+                let _newBoard = new Board(_board.name, _board.id, _board.settings, _board.identifier);
 
             // Fill the board with cards.
             for (let _card of _board.cards) {
@@ -814,19 +831,25 @@ function loadData() {
                     _newCard.items.push(_newItem);
                 }
                 // Push the card into the board.
-                _newBoard.cards.push(_newCard);
+                    _newBoard.cards.push(_newCard);
+                }
+                // Push the board into app data.
+                appData.boards.push(_newBoard);
             }
-            // Push the board into app data.
-            appData.boards.push(_newBoard);
-        }
 
-        // Generate the board.
-        renderBoard(appData.boards[appData.currentBoard]);
-    } else {
+            // Generate the board.
+            renderBoard(appData.boards[appData.currentBoard]);
+            listBoards();
+        },
+    failure: function(data) {
         let _defaultBoard = new Board("Untitled Board", 'b0', {'theme': null});
         appData.boards.push(_defaultBoard);
-    }
-    listBoards();
+        listBoards();
+        }
+    });
+
+
+
 }
 
 function clearData() {
