@@ -76,12 +76,17 @@ function uniqueID() {
 
 function getMouseOverCard() {
     // The card the mouse cursor is currently over.
-    return document.querySelectorAll('.parent-card:hover')[0];
+    
+        return document.querySelectorAll('.parent-card:hover')[0];
+    
 }
 
 function getMouseOverItem() {
     // The task the mouse cursor is currently over.
-    return document.querySelectorAll('.parent-card > ul > li:hover')[0];
+    
+    
+        return document.querySelectorAll('.parent-card > ul > li:hover')[0];
+    
 }
 
 function getItemFromElement(element) {
@@ -129,7 +134,7 @@ function listBoards() {
 
 function renderBoard(board) {
     appData.currentBoard = appData.boards.indexOf(board);
-    document.title = 'Kards | ' + currentBoard().name;
+    document.title = 'Доска | ' + currentBoard().name;
     e_title.innerText = currentBoard().name;
     //e_title.addEventListener('click'), allow editing board name
     // To-Do: set theme
@@ -167,7 +172,7 @@ function toggleHoverStyle(show) {
 
         // Card and item should turn slightly darker when move over.
         // This gives a visual feedback that makes it easier for the user to know positions during drag and drop.
-        _hoverStyle.innerHTML = ".parent-card:hover {background-color: #c7cbd1;}.parent-card > ul > li:hover {background-color: #d1d1d1;}";
+        _hoverStyle.innerHTML = ".parent-card:hover {background-color: #c7cbd1;}.parent-card > ul > li:hover {background-color: #d1d1d1;}.parent-card:valid {background-color: #c7cbd1;}.parent-card > ul > li:valid {background-color: #d1d1d1;}";
         document.body.appendChild(_hoverStyle);
     } else {
 
@@ -182,8 +187,8 @@ function addBoard() {
     /* Adds a new board based on the input in the sidebar. */
 
     let _boardTitle = e_addBoardText.value;
-    if (!_boardTitle) return createAlert("Type a name for the board!");;  // We don't create a board if it has no name.
-    if (appData.boards.length >= 512) return createAlert("Max limit for boards reached.")  // or if there are already too many boards
+    if (!_boardTitle) return createAlert("Введите корректное имя для доски!");;  // We don't create a board if it has no name.
+    if (appData.boards.length >= 512) return createAlert("Достигнут лимит досок.")  // or if there are already too many boards
     e_addBoardText.value = '';
 
     let _newBoard = new Board(_boardTitle, uniqueID(), {'theme': null});
@@ -204,8 +209,9 @@ class Item {
     }
 
     getParentCard() {
-        return document.getElementById(this.parentCardId);
-    }
+        
+        return document.getElementById(this.parentCardId);}
+    
 
     check(chk=true) {
         this.isDone = chk;
@@ -233,6 +239,7 @@ class Item {
         });
 
         _element.addEventListener('mousedown', cardDrag_startDragging, false);
+        _element.addEventListener('touchstart', cardDrag_startDragging, false);
         this.check(this.isDone);
     }
 }
@@ -339,7 +346,7 @@ class Card {
                 
                 let e_BtnClearDescription = document.createElement('button');
                 e_BtnClearDescription.classList.add('BtnClear', 'btn', 'btn-primary');
-                e_BtnClearDescription.innerHTML = 'Clear';
+                e_BtnClearDescription.innerHTML = 'Очистить';
                 document.getElementById('MTF').appendChild(e_BtnClearDescription);
                 e_BtnClearDescription
                 e_BtnClearDescription.addEventListener('click',() => {
@@ -376,7 +383,7 @@ class Card {
                 }}); 
 
                 e_ModalDescriptionBtn.classList.add('EditDescriptionBtn', 'btn', 'btn-primary');
-                e_ModalDescriptionBtn.innerHTML = "Edit description";
+                e_ModalDescriptionBtn.innerHTML = "Изменить описание";
                 document.getElementById('MTC').appendChild(e_ModalDescriptionBtn);
                 e_ModalDescriptionBtn.addEventListener('click', () => {
                     let _input = document.createElement('textarea');
@@ -484,7 +491,7 @@ class Card {
         _newInput.maxLength = 256;
         _newInput.type = 'text';
         _newInput.name = "add-todo-text";
-        _newInput.placeholder = "Add Task...";
+        _newInput.placeholder = "добавить карточку...";
         _newInput.addEventListener('keyup', (e) => {
             if (e.code === "Enter") _newButton.click();
         });
@@ -496,7 +503,7 @@ class Card {
         _newButton.innerText = '+';
         _newButton.addEventListener('click', () => {
             let _inputValue = _newInput.value;
-            if (!_inputValue) return createAlert("Type a name for the item!");
+            if (!_inputValue) return createAlert("Введите корректное имя карточки!");
             let _item = new Item(_inputValue, null, getBoardFromId(this.parentBoardId).uniqueID(), this.id);
             this.addItem(_item);
             _newInput.value = '';
@@ -568,8 +575,13 @@ const cardDrag_update = (e) => {
 
     // The card must be at the same coordinates as the mouse cursor.
     // This simulates the effect of the card being grabbed by the cursor.
-    cardDrag_mouseDownOn.style.left = e.pageX + 'px';
-    cardDrag_mouseDownOn.style.top = e.pageY + 'px';
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        cardDrag_mouseDownOn.style.left = e.changedTouches[0].pageX + 'px'
+        cardDrag_mouseDownOn.style.top = e.changedTouches[0].pageY + 'px';
+    }else{
+        cardDrag_mouseDownOn.style.left = e.pageX + 'px';
+        cardDrag_mouseDownOn.style.top = e.pageY + 'px';
+    }
 };
 
 const cardDrag_startDragging = (e) => {
@@ -593,7 +605,6 @@ const cardDrag_startDragging = (e) => {
 };
 
 const cardDrag_stopDragging = (e) => {
-
     // Only run the stop dragging code if the mouse was previously held down on an item element.
     if (!cardDrag_mouseDown) return;
 
@@ -679,9 +690,14 @@ const cardDrag_stopDragging = (e) => {
 // NOTE03: It would be a better idea to make a single mouseMove/mouseLeave/mouseUp function
 // to handle both the drag scroll and card item dragging.
 // It'll save unnecessary processing + less event listeners. 
-e_mainContainer.addEventListener('mousemove', cardDrag_update);
+e_mainContainer.addEventListener('mousemove', cardDrag_update);//
+e_mainContainer.addEventListener('touchmove', cardDrag_update);//
+
 e_mainContainer.addEventListener('mouseleave', cardDrag_stopDragging, false);
-window.addEventListener('mouseup', cardDrag_stopDragging, false);
+e_mainContainer.addEventListener('touchend', cardDrag_stopDragging, false);
+
+window.addEventListener('mouseup', cardDrag_stopDragging, false);//
+window.addEventListener('touchend', cardDrag_stopDragging, false);//
 
 /* <=================================== Drag Scrolling ===================================> */
 // This feature allows the user to hold and drag the main cards container to scroll instead of holding the scrollbar.
@@ -710,8 +726,11 @@ const scroll_update = (e) => {
 
 // Add the event listeners
 e_mainContainer.addEventListener('mousemove', scroll_update);
+
 e_mainContainer.addEventListener('mousedown', scroll_startDragging, false);
+
 e_mainContainer.addEventListener('mouseup', scroll_stopDragging, false);
+
 e_mainContainer.addEventListener('mouseleave', scroll_stopDragging, false);
 
 
@@ -766,23 +785,40 @@ e_cardContextMenuDelete.addEventListener('click', cardContextMenu_deleteCard);
 
 /* <=================================== Persistent Data Storage ===================================> */
 function saveData() {
-    window.localStorage.setItem('kards-appData', JSON.stringify(appData));
+    $.ajax({
+    url: 'post_user_data/' + user_email,
+    type: 'post',
+    data: {
+        'content':JSON.stringify(appData),
+        'csrfmiddlewaretoken': csrf,
+    },
+    success: function(data) {
+        },
+    failure: function(data) {
+            alert('Ooops... Try again!');
+        }
+    });
 }
 
-function loadData() {
-    let _data = window.localStorage.getItem('kards-appData');
-    if (_data) {
-        let _appData = JSON.parse(_data);
 
-        // Since JSON doesn't store functions and such.
-        // We'll have to reinitailize the classes with the loaded data.
-        appData.settings = _appData.settings;
-        appData.currentBoard = _appData.currentBoard;
-        appData.identifier = _appData.identifier;
-        
-        // Fill the data with boards.
-        for (let _board of _appData.boards) {
-            let _newBoard = new Board(_board.name, _board.id, _board.settings, _board.identifier);
+function loadData() {
+    let _data;
+    $.ajax({
+    url: 'get_user_data/' + user_email,
+    type: 'get',
+    success: function(data) {
+            _data = data;
+
+            let _appData = JSON.parse(_data);
+            // Since JSON doesn't store functions and such.
+            // We'll have to reinitailize the classes with the loaded data.
+            appData.settings = _appData.settings;
+            appData.currentBoard = _appData.currentBoard;
+            appData.identifier = _appData.identifier;
+
+            // Fill the data with boards.
+            for (let _board of _appData.boards) {
+                let _newBoard = new Board(_board.name, _board.id, _board.settings, _board.identifier);
 
             // Fill the board with cards.
             for (let _card of _board.cards) {
@@ -795,19 +831,25 @@ function loadData() {
                     _newCard.items.push(_newItem);
                 }
                 // Push the card into the board.
-                _newBoard.cards.push(_newCard);
+                    _newBoard.cards.push(_newCard);
+                }
+                // Push the board into app data.
+                appData.boards.push(_newBoard);
             }
-            // Push the board into app data.
-            appData.boards.push(_newBoard);
-        }
 
-        // Generate the board.
-        renderBoard(appData.boards[appData.currentBoard]);
-    } else {
+            // Generate the board.
+            renderBoard(appData.boards[appData.currentBoard]);
+            listBoards();
+        },
+    failure: function(data) {
         let _defaultBoard = new Board("Untitled Board", 'b0', {'theme': null});
         appData.boards.push(_defaultBoard);
-    }
-    listBoards();
+        listBoards();
+        }
+    });
+
+
+
 }
 
 function clearData() {
@@ -847,10 +889,10 @@ e_deleteButton.addEventListener('click', () => {
     }
     listBoards();
     renderBoard(appData.boards[0]);
-    createAlert(`Deleted board "${_boardName}"`)
+    createAlert(`Удалена доска "${_boardName}"`)
 });
 
-        e_sidebar.dataset.toggled = '';
+    e_sidebar.dataset.toggled = '';
     e_sidebar.style.width = "100%";
 
 /* <=================================== Sidebar ===================================> */
@@ -884,3 +926,4 @@ function createAlert(text) {
         _e.parentNode.removeChild(_e);
     }, 4500);
 }
+

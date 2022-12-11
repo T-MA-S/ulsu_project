@@ -3,17 +3,25 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 
+class Boards(models.Model):
+    data = models.TextField(
+        default='{"boards":[{"name":"Untitled Board","id":"b0","settings":{"theme":null},"cards":[],"identifier":0}],'
+                '"settings":{"userName":"User","dataPersistence":true},"currentBoard":0,"identifier":1}')
+
+
 class UserModel(AbstractUser):
-    username = None #удаление первичного ключа из родительской модели AbstractUser
+    username = None  # удаление первичного ключа из родительской модели AbstractUser
 
     email = models.EmailField('Email', unique=True)
+
+    boards = models.ForeignKey(Boards, on_delete=models.CASCADE, null=True)
 
     username = models.TextField("username")
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-
 
     def __str__(self):
         return self.username
