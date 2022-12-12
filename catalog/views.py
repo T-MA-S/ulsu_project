@@ -195,7 +195,7 @@ def accept_register(request, access_code):
         board.save()
         user.boards = board
         user.save()
-        return HttpResponse('Учетнаяа запись успешно подтверждена')
+        return HttpResponse('Учетная запись успешно подтверждена')
 
     else:
         return HttpResponse("Bad or Expired link")
