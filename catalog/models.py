@@ -51,3 +51,30 @@ class RestorelinkModel(models.Model):
 
     def __str__(self):
         return f'{self.url}'
+
+
+
+class RegisterlinkModelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            expired_date__gte=timezone.now() - timezone.timedelta(hours=24)
+        )
+
+
+class RegisterlinkModel(models.Model):
+    url = models.CharField(max_length=128, null=True)
+    expired_date = models.DateTimeField(auto_now_add=True)
+
+    email = models.EmailField('Email')
+    username = models.TextField()
+    password = models.TextField()
+
+
+    objects = RegisterlinkModelManager()
+
+    class Meta:
+        verbose_name = "Ссылка для регистрации"
+        verbose_name_plural = "Ссылки для регистрации"
+
+    def __str__(self):
+        return f'{self.url}'
