@@ -200,12 +200,14 @@ function addBoard() {
 /* <=================================== Classes ===================================> */
 class Item {
 
-    constructor(title, description, id, parentCardId) {
+    constructor(title, description, id, parentCardId, MarkText) {
         this.title = title;
         this.description = description;  // A field for a future version, perhaps v2
         this.id = id;
         this.isDone = false;
         this.parentCardId = parentCardId;
+        this.MarkColor = "d-none";
+        this.MarkText = MarkText;
     }
 
     getParentCard() {
@@ -284,6 +286,11 @@ class Card {
             let _newItemTitle = document.createElement('p');
             _newItemTitle.innerText = _item.title;
             _newItemTitle.classList.add('item-title', 'text-fix', 'unselectable');
+
+            let _newItemMark = document.createElement('div');
+            _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark");
+            _newItemMark.innerText = _item.MarkText;
+            
             
             // Housing for the edit and delete buttons.
             let _newItemButtons = document.createElement('span');
@@ -344,6 +351,65 @@ class Card {
 
                 let e_ModalDescriptionBtn = document.createElement('button');
                 
+                let e_ModalMarkBtn = document.createElement('button');
+                e_ModalMarkBtn.classList.add('BtnMark', 'btn', 'btn-primary');
+                e_ModalMarkBtn.innerHTML = 'Добавить метку';
+                document.getElementById('MTF').appendChild(e_ModalMarkBtn);
+                let e_ColorContainer = document.createElement('div');
+                e_ColorContainer.classList.add('d-flex', 'flex-row', 'mb-4');
+                let e_MarkTextInput = document.createElement('input');
+                e_MarkTextInput.classList.add('form-control', 'form-control-sm', 'mb-3');
+                e_MarkTextInput.setAttribute('id', 'MarkText');
+                e_MarkTextInput.setAttribute('type', 'text');
+                e_MarkTextInput.setAttribute('placeholder', 'имя метки');
+                e_MarkTextInput.value = "123";
+
+                let e_Color1 = document.createElement('div');
+                e_Color1.classList.add('circle', 'bg-primary');
+                let e_Color2 = document.createElement('div');
+                e_Color2.classList.add('circle', 'bg-warning', 'ms-2');
+                let e_Color3 = document.createElement('div');
+                e_Color3.classList.add('circle', 'bg-success', 'ms-2');
+                let e_Color4 = document.createElement('div');
+                e_Color4.classList.add('circle', 'bg-danger', 'ms-2');
+                e_ModalMarkBtn.addEventListener('click', () => {
+                    document.getElementById('Marks').appendChild(e_ColorContainer);
+                    e_ColorContainer.appendChild(e_Color1);
+                    e_ColorContainer.appendChild(e_Color2);
+                    e_ColorContainer.appendChild(e_Color3);
+                    e_ColorContainer.appendChild(e_Color4);
+                    document.getElementById('Marks-input').appendChild(e_MarkTextInput);
+                });
+
+                e_Color1.addEventListener('click', () => {
+                    _item.MarkColor = 'bg-primary';
+                    _item.MarkText = `${e_MarkTextInput.value}`;
+                    _newItemMark.removeAttribute("class");
+                    _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
+                    _newItemMark.innerHTML = _item.MarkText;
+                })
+
+                e_Color2.addEventListener('click', () => {
+                    _item.MarkColor = 'bg-warning'
+                    _newItemMark.removeAttribute("class");
+                    _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
+                    _item.MarkText = e_MarkTextInput.value
+                })
+
+                e_Color3.addEventListener('click', () => {
+                    _item.MarkColor = 'bg-success'
+                    _newItemMark.removeAttribute("class");
+                    _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
+                    _item.MarkText = e_MarkTextInput.value
+                })
+
+                e_Color4.addEventListener('click', () => {
+                    _item.MarkColor = 'bg-danger'
+                    _newItemMark.removeAttribute("class");
+                    _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
+                    _item.MarkText = e_MarkTextInput.value
+                })
+
                 let e_BtnClearDescription = document.createElement('button');
                 e_BtnClearDescription.classList.add('BtnClear', 'btn', 'btn-primary');
                 e_BtnClearDescription.innerHTML = 'Очистить';
@@ -363,6 +429,13 @@ class Card {
                     try{
                         document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
+                        document.getElementById('MTF').removeChild(e_ModalMarkBtn);
+                        document.getElementById('Marks').removeChild(e_ColorContainer);
+                        e_ColorContainer.removeChild(e_Color1);
+                        e_ColorContainer.removeChild(e_Color2);
+                        e_ColorContainer.removeChild(e_Color3);
+                        e_ColorContainer.removeChild(e_Color4);
+                        document.getElementById('Marks-input').removeChild(e_MarkTextInput);
                     }
                     catch{
                         
@@ -378,6 +451,7 @@ class Card {
                     try{
                         document.getElementById('MTC').removeChild(e_ModalDescriptionBtn);
                         document.getElementById('MTF').removeChild(e_BtnClearDescription);
+                        document.getElementById('MTF').removeChild(e_ModalMarkBtn);
                     }
                     catch{}
                 }}); 
@@ -421,6 +495,7 @@ class Card {
             _newItemButtons.appendChild(_newItemContextButton);
             // Add the title, span tag to the item and the item itself to the list.
             _newItem.appendChild(_newItemTitle);
+            _newItem.appendChild(_newItemMark);
             _newItem.appendChild(_newItemButtons);
             _newItemList.appendChild(_newItem);
         }
@@ -826,7 +901,7 @@ function loadData() {
 
                 // Fill the cards with items.
                 for (let _item of _card.items) {
-                    let _newItem = new Item(_item.title, _item.description, _item.id, _card.id);
+                    let _newItem = new Item(_item.title, _item.description, _item.id, _card.id, _item.MarkColor, _item.MarkText);
                     // Push the item into the card.
                     _newCard.items.push(_newItem);
                 }
