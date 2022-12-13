@@ -200,15 +200,15 @@ function addBoard() {
 /* <=================================== Classes ===================================> */
 class Item {
 
-    constructor(title, description, id, parentCardId, MarkText, MarkColor) {
+    constructor(title, description, id, parentCardId, MarkText, MarkColor, MarkHidden) {
         this.title = title;
         this.description = description;
         this.id = id;
         this.isDone = false;
         this.parentCardId = parentCardId;
-        this.MarkHidden = true;
-        this.MarkColor = MarkColor;
-        this.MarkText = MarkText;
+        this.MarkHidden = MarkHidden || true;
+        this.MarkColor = MarkColor || "d-none";
+        this.MarkText = MarkText || "";
     }
 
     setMarkHidden(bool){
@@ -302,17 +302,7 @@ class Card {
 
             let _newItemMark = document.createElement('div');
             console.log(_item.MarkHidden);
-            if (_item.MarkHidden == true){
-                _newItemMark.classList.add('d-none');
-            }
-            else{
-                try{
-                    _newItemMark.classList.remove("d-none");
-                }
-                catch{
-                }
-                _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
-            }
+            _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
             
             _newItemMark.innerText = _item.MarkText;
             
@@ -421,6 +411,17 @@ class Card {
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _newItemMark.innerHTML = e_MarkTextInput.value;
+                    let currentItem;
+                    appData.boards.map(el => {
+                        el.cards.map(elem=>{
+                            elem.items.map(item =>{
+                                if(item.id == _item.id){
+                                    currentItem = item;
+                                }
+                            })
+                        })
+                    })
+                    console.log(currentItem);
                     saveData()
                 })
 
@@ -907,6 +908,7 @@ e_cardContextMenuDelete.addEventListener('click', cardContextMenu_deleteCard);
 
 /* <=================================== Persistent Data Storage ===================================> */
 function saveData() {
+    console.log(JSON.stringify(appData))
     $.ajax({
     url: 'post_user_data/' + user_email,
     type: 'post',
@@ -932,6 +934,7 @@ function loadData() {
             _data = data;
 
             let _appData = JSON.parse(_data);
+            console.log(_appData);
             // Since JSON doesn't store functions and such.
             // We'll have to reinitailize the classes with the loaded data.
             appData.settings = _appData.settings;
@@ -948,7 +951,8 @@ function loadData() {
 
                 // Fill the cards with items.
                 for (let _item of _card.items) {
-                    let _newItem = new Item(_item.title, _item.description, _item.id, _card.id,);
+                    let _newItem = new Item(_item.title, _item.description, _item.id, _card.id, _item.MarkText, _item.MarkColor, _item.MarkHidden);
+                    console.log(_item.MarkText, _item.MarkColor, _item.MarkHidden)
                     // Push the item into the card.
                     _newCard.items.push(_newItem);
                 }
