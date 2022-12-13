@@ -206,8 +206,21 @@ class Item {
         this.id = id;
         this.isDone = false;
         this.parentCardId = parentCardId;
-        this.MarkColor = "d-none";
+        this.MarkHidden = true;
+        this.MarkColor = "";
         this.MarkText = MarkText;
+    }
+
+    setMarkHidden(bool){
+        this.MarkHidden = bool;
+    }
+
+    setMarkText(Text){
+        this.MarkText=Text
+    }
+
+    setMarkColor(Color){
+        this.MarkColor = Color
     }
 
     getParentCard() {
@@ -288,7 +301,19 @@ class Card {
             _newItemTitle.classList.add('item-title', 'text-fix', 'unselectable');
 
             let _newItemMark = document.createElement('div');
-            _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark");
+            console.log(_item.MarkHidden);
+            if (_item.MarkHidden == true){
+                _newItemMark.classList.add('d-none');
+            }
+            else{
+                try{
+                    _newItemMark.classList.remove("d-none");
+                }
+                catch{
+                }
+                _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
+            }
+            
             _newItemMark.innerText = _item.MarkText;
             
             
@@ -362,7 +387,7 @@ class Card {
                 e_MarkTextInput.setAttribute('id', 'MarkText');
                 e_MarkTextInput.setAttribute('type', 'text');
                 e_MarkTextInput.setAttribute('placeholder', 'имя метки');
-                e_MarkTextInput.value = "123";
+                e_MarkTextInput.value = "";
 
                 let e_Color1 = document.createElement('div');
                 e_Color1.classList.add('circle', 'bg-primary');
@@ -382,32 +407,43 @@ class Card {
                 });
 
                 e_Color1.addEventListener('click', () => {
-                    _item.MarkColor = 'bg-primary';
-                    _item.MarkText = `${e_MarkTextInput.value}`;
+                    _item.setMarkHidden(false)
+                    _item.setMarkColor('bg-primary');
+                    _item.setMarkText(`${e_MarkTextInput.value}`);
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _newItemMark.innerHTML = _item.MarkText;
+                    saveData()
                 })
 
                 e_Color2.addEventListener('click', () => {
-                    _item.MarkColor = 'bg-warning'
+                    _item.setMarkHidden(false)
+                    _item.setMarkColor('bg-warning')
+                    _item.setMarkText(`${e_MarkTextInput.value}`);
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _item.MarkText = e_MarkTextInput.value
+                    saveData()
                 })
 
                 e_Color3.addEventListener('click', () => {
-                    _item.MarkColor = 'bg-success'
+                    _item.setMarkHidden(false)
+                    _item.setMarkColor('bg-success')
+                    _item.setMarkText(`${e_MarkTextInput.value}`);
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _item.MarkText = e_MarkTextInput.value
+                    saveData()
                 })
 
                 e_Color4.addEventListener('click', () => {
-                    _item.MarkColor = 'bg-danger'
+                    _item.setMarkHidden(false)
+                    _item.setMarkColor('bg-danger')
+                    _item.setMarkText(`${e_MarkTextInput.value}`);
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _item.MarkText = e_MarkTextInput.value
+                    saveData()
                 })
 
                 let e_BtnClearDescription = document.createElement('button');
@@ -901,7 +937,7 @@ function loadData() {
 
                 // Fill the cards with items.
                 for (let _item of _card.items) {
-                    let _newItem = new Item(_item.title, _item.description, _item.id, _card.id, _item.MarkColor, _item.MarkText);
+                    let _newItem = new Item(_item.title, _item.description, _item.id, _card.id,);
                     // Push the item into the card.
                     _newCard.items.push(_newItem);
                 }
