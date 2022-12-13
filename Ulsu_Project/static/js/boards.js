@@ -200,14 +200,14 @@ function addBoard() {
 /* <=================================== Classes ===================================> */
 class Item {
 
-    constructor(title, description, id, parentCardId, MarkText) {
+    constructor(title, description, id, parentCardId, MarkText, MarkColor) {
         this.title = title;
-        this.description = description;  // A field for a future version, perhaps v2
+        this.description = description;
         this.id = id;
         this.isDone = false;
         this.parentCardId = parentCardId;
         this.MarkHidden = true;
-        this.MarkColor = "";
+        this.MarkColor = MarkColor;
         this.MarkText = MarkText;
     }
 
@@ -216,11 +216,11 @@ class Item {
     }
 
     setMarkText(Text){
-        this.MarkText=Text
+        this.MarkText = Text;
     }
 
     setMarkColor(Color){
-        this.MarkColor = Color
+        this.MarkColor = Color;
     }
 
     getParentCard() {
@@ -387,7 +387,6 @@ class Card {
                 e_MarkTextInput.setAttribute('id', 'MarkText');
                 e_MarkTextInput.setAttribute('type', 'text');
                 e_MarkTextInput.setAttribute('placeholder', 'имя метки');
-                e_MarkTextInput.value = "";
 
                 let e_Color1 = document.createElement('div');
                 e_Color1.classList.add('circle', 'bg-primary');
@@ -412,7 +411,7 @@ class Card {
                     _item.setMarkText(`${e_MarkTextInput.value}`);
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
-                    _newItemMark.innerHTML = _item.MarkText;
+                    _newItemMark.innerHTML = e_MarkTextInput.value;
                     saveData()
                 })
 
@@ -423,6 +422,7 @@ class Card {
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _item.MarkText = e_MarkTextInput.value
+                    _newItemMark.innerHTML = e_MarkTextInput.value;
                     saveData()
                 })
 
@@ -433,6 +433,7 @@ class Card {
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _item.MarkText = e_MarkTextInput.value
+                    _newItemMark.innerHTML = e_MarkTextInput.value;
                     saveData()
                 })
 
@@ -443,6 +444,7 @@ class Card {
                     _newItemMark.removeAttribute("class");
                     _newItemMark.classList.add(`${_item.MarkColor}`, 'rounded', "Mark", "d-flex", "justify-content-center");
                     _item.MarkText = e_MarkTextInput.value
+                    _newItemMark.innerHTML = e_MarkTextInput.value;
                     saveData()
                 })
 
