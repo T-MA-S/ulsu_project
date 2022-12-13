@@ -397,12 +397,21 @@ class Card {
                 let e_Color4 = document.createElement('div');
                 e_Color4.classList.add('circle', 'bg-danger', 'ms-2');
                 e_ModalMarkBtn.addEventListener('click', () => {
-                    document.getElementById('Marks').appendChild(e_ColorContainer);
+                    try {
+                    document.getElementById('Marks').removeChild(e_ColorContainer);
+                    e_ColorContainer.removeChild(e_Color1);
+                    e_ColorContainer.removeChild(e_Color2);
+                    e_ColorContainer.removeChild(e_Color3);
+                    e_ColorContainer.removeChild(e_Color4);
+                    document.getElementById('Marks-input').removeChild(e_MarkTextInput);
+                    } catch {
+                        document.getElementById('Marks').appendChild(e_ColorContainer);
                     e_ColorContainer.appendChild(e_Color1);
                     e_ColorContainer.appendChild(e_Color2);
                     e_ColorContainer.appendChild(e_Color3);
                     e_ColorContainer.appendChild(e_Color4);
                     document.getElementById('Marks-input').appendChild(e_MarkTextInput);
+                    }
                 });
 
                 e_Color1.addEventListener('click', () => {
